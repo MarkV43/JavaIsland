@@ -2,7 +2,7 @@
 /shelf/
 /workspace.xml
 # Datasource local storage ignored files
-/../../../../../../:\Users\Lekob\IdeaProjects\JavaIsland\.idea/dataSources/
+/../../../../../:\Programming\IdeaProjects\JavaIsland\.idea/dataSources/
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
