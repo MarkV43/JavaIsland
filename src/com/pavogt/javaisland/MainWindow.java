@@ -13,7 +13,7 @@ public class MainWindow extends Frame {
             }
         });
 
-        var fixoTexto = new Label("texto fixo");
+        /*var fixoTexto = new Label("texto fixo");
         fixoTexto.setBounds(30, 100, 80, 30);
         add(fixoTexto);
 
@@ -57,11 +57,23 @@ public class MainWindow extends Frame {
 
         var s = new Scrollbar(Scrollbar.HORIZONTAL, 50, 10, 0, 100);
         s.setBounds(500, 600, 300, 50);
-        add(s);
+        add(s);*/
 
-        setTitle("Minha Primeira Janela");
+        Button clients = new Button("Clientes");
+        clients.setBounds(0, 30, 430, 60);
+        add(clients);
+
+        Button admin = new Button("Admin");
+        admin.setBounds(430, 30, 420, 60);
+        add(admin);
+
+        Button store = new Button("Loja");
+        store.setBounds(850, 30, 430, 60);
+        add(store);
+
+        setTitle("Java Island");
         setLayout(null);
         setVisible(true);
-        setSize(1280, 720);
+        setSize(1280, 750);
     }
 }
