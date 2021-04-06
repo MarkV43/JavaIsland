@@ -1,5 +1,6 @@
 package com.pavogt.javaisland;
 
+import com.pavogt.javaisland.screen.Admin;
 import com.pavogt.javaisland.screen.Clients;
 import com.pavogt.javaisland.screen.Initial;
 
@@ -13,6 +14,7 @@ public class MainWindow extends Frame {
 
     private Panel initialPanel;
     private Panel clientsPanel;
+    private Panel adminPanel;
 
     public MainWindow() {
         super();
@@ -81,7 +83,7 @@ public class MainWindow extends Frame {
         admin.setBounds(430, 30, 420, 60);
         admin.addActionListener(e -> {
             this.remove(3);
-            this.add(initialPanel);
+            this.add(adminPanel);
         });
         add(admin);
 
@@ -94,6 +96,7 @@ public class MainWindow extends Frame {
 
         initialPanel = new Initial();
         clientsPanel = new Clients();
+        adminPanel = new Admin();
 
         add(initialPanel);
 
