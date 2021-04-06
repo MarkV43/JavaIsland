@@ -1,12 +1,18 @@
 package com.pavogt.javaisland;
 
+import com.pavogt.javaisland.screen.Initial;
+
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class MainWindow extends Frame {
 
+    private Panel initial;
+
     public MainWindow() {
+        super();
+
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 dispose();
@@ -70,6 +76,9 @@ public class MainWindow extends Frame {
         Button store = new Button("Loja");
         store.setBounds(850, 30, 430, 60);
         add(store);
+
+        initial = new Initial();
+        add(initial);
 
         setTitle("Java Island");
         setLayout(null);
