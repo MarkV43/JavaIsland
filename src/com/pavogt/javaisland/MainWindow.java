@@ -1,14 +1,18 @@
 package com.pavogt.javaisland;
 
+import com.pavogt.javaisland.screen.Clients;
 import com.pavogt.javaisland.screen.Initial;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class MainWindow extends Frame {
 
-    private Panel initial;
+    private Panel initialPanel;
+    private Panel clientsPanel;
 
     public MainWindow() {
         super();
@@ -67,18 +71,31 @@ public class MainWindow extends Frame {
 
         Button clients = new Button("Clientes");
         clients.setBounds(0, 30, 430, 60);
+        clients.addActionListener(e -> {
+            this.remove(3);
+            this.add(clientsPanel);
+        });
         add(clients);
 
         Button admin = new Button("Admin");
         admin.setBounds(430, 30, 420, 60);
+        admin.addActionListener(e -> {
+            this.remove(3);
+            this.add(initialPanel);
+        });
         add(admin);
 
         Button store = new Button("Loja");
         store.setBounds(850, 30, 430, 60);
+        clients.addActionListener(e -> {
+
+        });
         add(store);
 
-        initial = new Initial();
-        add(initial);
+        initialPanel = new Initial();
+        clientsPanel = new Clients();
+
+        add(initialPanel);
 
         setTitle("Java Island");
         setLayout(null);
