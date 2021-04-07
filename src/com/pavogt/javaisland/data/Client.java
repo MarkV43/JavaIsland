@@ -4,22 +4,28 @@ import java.io.Serializable;
 
 public class Client implements Serializable {
 
-    public static final long serialVersionUID = 1L;
+    public static final long serialVersionUID = 2L;
 
+    private final long uuid;
     private String name;
     private String email;
     private long password;
     private float balance;
 
-    public Client(String name, String email, long password, float balance) {
+    public Client(long uuid, String name, String email, long password, float balance) {
+        this.uuid = uuid;
         this.name = name;
         this.email = email;
         this.password = password;
         this.balance = balance;
     }
 
-    public Client(String name, String email, long password) {
-        this(name, email, password, 0);
+    public Client(long uuid, String name, String email, long password) {
+        this(uuid, name, email, password, 0);
+    }
+
+    public long getUuid() {
+        return uuid;
     }
 
     public String getName() {

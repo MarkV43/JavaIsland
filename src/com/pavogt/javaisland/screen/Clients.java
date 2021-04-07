@@ -3,10 +3,19 @@ package com.pavogt.javaisland.screen;
 import com.pavogt.javaisland.data.Client;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class Clients extends Panel {
 
     private Client[] clients;
+    private List list;
+    private Label name;
+    private Label email;
+    private Label balance;
+    private List history;
 
     public Clients() {
         Button bAdd = new Button("+");
@@ -21,22 +30,57 @@ public class Clients extends Panel {
         add(search);
 
         clients = new Client[100];
-        clients[0] = new Client("Marcelo", "marcelo.vogt@grad.ufsc.br", 0, 99999);
-        clients[1] = new Client("Gaby", "gabycalzone@gmail.com", 0, 69420);
-        clients[2] = new Client("Luís Eduardo", "luis.e.parise@grad.ufsc.br", 0, 69);
-        clients[3] = new Client("Eduardo", "eduardo@gmail.com", 0, 0);
-        clients[4] = new Client("Gabriel", "gabriel@gmail.com", 0, 10);
-        clients[5] = new Client("Marechal Luciolo", "luciolo@marechal.gov.br", 0, 1000000);
+        clients[0] = new Client(0, "Marcelo", "marcelo.vogt@grad.ufsc.br", 0, 99999);
+        clients[1] = new Client(1, "Gaby", "gabycalzone@gmail.com", 0, 69420);
+        clients[2] = new Client(2, "Luís Eduardo", "luis.e.parise@grad.ufsc.br", 0, 69);
+        clients[3] = new Client(3, "Eduardo", "eduardo@gmail.com", 0, 0);
+        clients[4] = new Client(4, "Gabriel", "gabriel@gmail.com", 0, 10);
+        clients[5] = new Client(5, "Marechal Luciolo", "luciolo@marechal.gov.br", 0, 1000000);
 
-        List list = new List(100, false);
+        list = new List(100, false);
         for (int i = 0; i < 100; i++) {
             if (clients[i] == null) break;
             list.add(clients[i].getName());
         }
         list.setBounds(20, 60, 340, 580);
+        list.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                itemClicked();
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                itemClicked();
+            }
+        });
+        list.addActionListener(e -> itemClicked());
         add(list);
+
+        name = new Label("");
+        name.setBounds(380, 20, 300, 30);
+        name.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(name);
+
+        email = new Label("");
+        email.setBounds(380, 70, 300, 30);
+        email.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(email);
+
+        balance = new Label("");
+        balance.setBounds(380, 120, 300, 30);
+        balance.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(balance);
 
         setLayout(null);
         setBounds(0, 90, 1280, 660);
+    }
+
+    void itemClicked() {
+        int index = list.getSelectedIndex();
+        Client c = clients[index];
+        name.setText(c.getName());
+        email.setText(c.getEmail());
+        balance.setText("R$ " + c.getBalance());
     }
 }

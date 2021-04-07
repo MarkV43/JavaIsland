@@ -2,14 +2,14 @@ package com.pavogt.javaisland.data;
 
 import java.io.Serializable;
 
-public class Item implements Serializable {
+public class Product implements Serializable {
 
     private String name;
     private float price;
     private int quantity;
     private String description;
 
-    public Item(String name, float price, int quantity, String description) {
+    public Product(String name, float price, int quantity, String description) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
