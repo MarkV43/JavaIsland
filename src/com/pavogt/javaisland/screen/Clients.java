@@ -1,8 +1,13 @@
 package com.pavogt.javaisland.screen;
 
+import com.pavogt.javaisland.data.Client;
+
 import java.awt.*;
 
 public class Clients extends Panel {
+
+    private Client[] clients;
+
     public Clients() {
         Button bAdd = new Button("+");
         bAdd.setBounds(20, 20, 30, 30);
@@ -15,13 +20,19 @@ public class Clients extends Panel {
         search.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(search);
 
-        List list = new List(3, false);
-        list.add("Marcelo");
-        list.add("Gaby");
-        list.add("Luís Eduardo");
-        list.add("Eduardo");
-        list.add("Gabriel");
-        list.add("Marechal Luciolo");
+        clients = new Client[100];
+        clients[0] = new Client("Marcelo", "marcelo.vogt@grad.ufsc.br", 0, 99999);
+        clients[1] = new Client("Gaby", "gabycalzone@gmail.com", 0, 69420);
+        clients[2] = new Client("Luís Eduardo", "luis.e.parise@grad.ufsc.br", 0, 69);
+        clients[3] = new Client("Eduardo", "eduardo@gmail.com", 0, 0);
+        clients[4] = new Client("Gabriel", "gabriel@gmail.com", 0, 10);
+        clients[5] = new Client("Marechal Luciolo", "luciolo@marechal.gov.br", 0, 1000000);
+
+        List list = new List(100, false);
+        for (int i = 0; i < 100; i++) {
+            if (clients[i] == null) break;
+            list.add(clients[i].getName());
+        }
         list.setBounds(20, 60, 340, 580);
         add(list);
 
