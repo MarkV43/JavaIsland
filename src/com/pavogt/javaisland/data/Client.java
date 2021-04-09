@@ -1,6 +1,7 @@
 package com.pavogt.javaisland.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Client implements Serializable {
 
@@ -11,17 +12,15 @@ public class Client implements Serializable {
     private String email;
     private long password;
     private float balance;
+    final private ArrayList<Transaction> history;
 
-    public Client(long uuid, String name, String email, long password, float balance) {
+    public Client(long uuid, String name, String email, long password, float balance, ArrayList<Transaction> history) {
         this.uuid = uuid;
         this.name = name;
         this.email = email;
         this.password = password;
         this.balance = balance;
-    }
-
-    public Client(long uuid, String name, String email, long password) {
-        this(uuid, name, email, password, 0);
+        this.history = history;
     }
 
     public long getUuid() {
@@ -58,6 +57,18 @@ public class Client implements Serializable {
 
     public void setBalance(float balance) {
         this.balance = balance;
+    }
+
+    public ArrayList<Transaction> getHistory() {
+        return history;
+    }
+
+    public void addToHistory(Transaction t) {
+        history.add(t);
+    }
+
+    public boolean removeFromHistory(Transaction t) {
+        return history.remove(t);
     }
 
     @Override

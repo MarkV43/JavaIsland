@@ -4,16 +4,24 @@ import java.io.Serializable;
 
 public class Product implements Serializable {
 
+    public static final long serialVersionUID = 2L;
+
+    private long uuid;
     private String name;
     private float price;
     private int quantity;
     private String description;
 
-    public Product(String name, float price, int quantity, String description) {
+    public Product(long uuid, String name, float price, int quantity, String description) {
+        this.uuid = uuid;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.description = description;
+    }
+
+    public long getUuid() {
+        return uuid;
     }
 
     public String getName() {
