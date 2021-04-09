@@ -30,12 +30,12 @@ public class Clients extends Panel {
         add(search);
 
         clients = new Client[100];
-        clients[0] = new Client(0, "Marcelo", "marcelo.vogt@grad.ufsc.br", 0, 99999);
-        clients[1] = new Client(1, "Gaby", "gabycalzone@gmail.com", 0, 69420);
-        clients[2] = new Client(2, "Luís Eduardo", "luis.e.parise@grad.ufsc.br", 0, 69);
-        clients[3] = new Client(3, "Eduardo", "eduardo@gmail.com", 0, 0);
-        clients[4] = new Client(4, "Gabriel", "gabriel@gmail.com", 0, 10);
-        clients[5] = new Client(5, "Marechal Luciolo", "luciolo@marechal.gov.br", 0, 1000000);
+        clients[0] = new Client(0, "Marcelo", "marcelo.vogt@grad.ufsc.br", 0, 99999, true);
+        clients[1] = new Client(1, "Gaby", "gabycalzone@gmail.com", 0, 69420, true);
+        clients[2] = new Client(2, "Luís Eduardo", "luis.e.parise@grad.ufsc.br", 0, 69, true);
+        clients[3] = new Client(3, "Eduardo", "eduardo@gmail.com", 0, 0, false);
+        clients[4] = new Client(4, "Gabriel", "gabriel@gmail.com", 0, 10, false);
+        clients[5] = new Client(5, "Marechal Luciolo", "luciolo@marechal.gov.br", 0, 1000000, false);
 
         list = new List(100, false);
         for (int i = 0; i < 100; i++) {

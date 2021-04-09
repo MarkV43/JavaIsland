@@ -1,8 +1,20 @@
 package com.pavogt.javaisland.screen;
 
+import com.pavogt.javaisland.data.Client;
+import com.pavogt.javaisland.data.Product;
+
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Admin extends Panel {
+
+    private List stock;
+    private Label name;
+    private Label price;
+    private Label quantity;
+    private Product[] products;
+
     public Admin(){
         Button bAdd = new Button("+");
         bAdd.setBounds(50, 50, 30, 30);

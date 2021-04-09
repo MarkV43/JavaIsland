@@ -8,8 +8,8 @@ public class Test {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         Client[] clients = new Client[2];
-        clients[0] = new Client(0, "Marcelo", "marcelo.vogt@grad.ufsc.br", 0, 99999);
-        clients[1] = new Client(2, "Luís Eduardo", "luis.e.parise@grad.ufsc.br", 0, 69);
+        clients[0] = new Client(0, "Marcelo", "marcelo.vogt@grad.ufsc.br", 0, 99999, true);
+        clients[1] = new Client(2, "Luís Eduardo", "luis.e.parise@grad.ufsc.br", 0, 69, false);
 
         var fileOutputStream = new FileOutputStream("yourfile.txt");
         var objectOutputStream = new ObjectOutputStream(fileOutputStream);
