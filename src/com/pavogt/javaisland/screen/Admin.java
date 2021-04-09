@@ -47,10 +47,6 @@ public class Admin extends Panel {
         search.setFont(font2);
         add(search);
 
-        List results = new List(100,false);
-        results.setBounds(100,100, 288,300);
-        add(results);
-
         stock = new List(100, false);
 
         for (int i = 0; i < 100; i++) {
@@ -58,7 +54,7 @@ public class Admin extends Panel {
             stock.add(products[i].getName());
         }
 
-        stock.setBounds(600,50,500,400);
+        stock.setBounds(100,100, 288,300);
         add(stock);
         
         
@@ -80,17 +76,17 @@ public class Admin extends Panel {
         add(stock);
 
         name = new Label("");
-        name.setBounds(380, 20, 300, 30);
+        name.setBounds(480, 100, 300, 30);
         name.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(name);
 
         price = new Label("");
-        price.setBounds(380, 70, 300, 30);
+        price.setBounds(480, 150, 300, 30);
         price.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(price);
 
         quantity = new Label("");
-        quantity.setBounds(380, 120, 300, 30);
+        quantity.setBounds(480, 200, 300, 30);
         quantity.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(quantity);
         
@@ -101,7 +97,7 @@ public class Admin extends Panel {
         int index = stock.getSelectedIndex();
         Product c = products[index];
         name.setText(c.getName());
-        price.setText(Float.toString(c.getPrice()));
-        quantity.setText("Nº " + c.getQuantity());
+        price.setText("R$ " + Float.toString(c.getPrice()));
+        quantity.setText("Quantidade: " + c.getQuantity());
     }
 }
