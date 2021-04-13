@@ -3,6 +3,7 @@ package com.pavogt.javaisland;
 import com.pavogt.javaisland.screen.Admin;
 import com.pavogt.javaisland.screen.Clients;
 import com.pavogt.javaisland.screen.Initial;
+import com.pavogt.javaisland.screen.Store;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,9 +13,9 @@ import java.awt.event.WindowEvent;
 
 public class MainWindow extends Frame {
 
-    private Panel initialPanel;
     private Panel clientsPanel;
     private Panel adminPanel;
+    private Store storePanel;
 
     public MainWindow() {
         super();
@@ -74,29 +75,40 @@ public class MainWindow extends Frame {
         Button clients = new Button("Clientes");
         clients.setBounds(0, 30, 430, 60);
         clients.addActionListener(e -> {
-            this.remove(3);
-            this.add(clientsPanel);
+            clientsPanel.setVisible(true);
+            adminPanel.setVisible(false);
+            storePanel.setVisible(false);
         });
         add(clients);
 
         Button admin = new Button("Admin");
         admin.setBounds(430, 30, 420, 60);
         admin.addActionListener(e -> {
-            this.remove(3);
-            this.add(adminPanel);
+            clientsPanel.setVisible(false);
+            adminPanel.setVisible(true);
+            storePanel.setVisible(false);
         });
         add(admin);
 
         Button store = new Button("Loja");
         store.setBounds(850, 30, 430, 60);
-        clients.addActionListener(e -> {
-
+        store.addActionListener(e -> {
+            clientsPanel.setVisible(false);
+            adminPanel.setVisible(false);
+            storePanel.setVisible(true);
         });
         add(store);
 
-        initialPanel = new Initial();
+        Panel initialPanel = new Initial();
         clientsPanel = new Clients();
         adminPanel = new Admin();
+        storePanel = new Store();
+        clientsPanel.setVisible(false);
+        adminPanel.setVisible(false);
+        storePanel.setVisible(false);
+        add(clientsPanel);
+        add(adminPanel);
+        add(storePanel);
 
         add(initialPanel);
 

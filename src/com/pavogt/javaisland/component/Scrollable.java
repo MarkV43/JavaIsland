@@ -2,30 +2,36 @@ package com.pavogt.javaisland.component;
 
 import java.awt.*;
 
-public class Scrollable extends Frame {
-    public static void main(String[] args) {
+public class Scrollable extends ScrollPane {
+    private Panel panel;
 
-        Frame frame = new Frame("Scrollbar");
+    public Scrollable() {
+        super(ScrollPane.SCROLLBARS_AS_NEEDED);
 
-        frame.setLayout(new FlowLayout());
+        panel = new Panel();
+    }
 
-        ScrollPane sp = new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
+    public Scrollable(int scrollbarDisplayPolicy) {
+        super(scrollbarDisplayPolicy);
+        panel = new Panel();
+    }
 
-        Panel p = new Panel(new FlowLayout());
-        p.setPreferredSize(new Dimension(400, 300));
+    public Scrollable(LayoutManager layoutManager) {
+        super(ScrollPane.SCROLLBARS_AS_NEEDED);
 
-        for (int i = 0; i < 2; i++) {
-            Button b = new Button(Integer.toString(i));
-            p.add(b);
-        }
+        panel = new Panel(layoutManager);
+    }
 
-        sp.add(p);
+    public void setLayoutManager(LayoutManager layoutManager) {
+        panel.setLayout(layoutManager);
+    }
 
-        frame.add(sp);
+    @Override
+    public Component add(Component comp) {
+        return panel.add(comp);
+    }
 
-        frame.setVisible(true);
-
-        frame.pack();
-
+    public Panel getPanel() {
+        return panel;
     }
 }
