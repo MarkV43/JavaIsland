@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public class BackgroundPanel extends Panel
 {
@@ -14,8 +16,12 @@ public class BackgroundPanel extends Panel
     {
         // Loads the background image and stores in img object.
         try {
-            img = ImageIO.read(new File("image/Shutup.png"));
-        } catch (IOException x){}
+            URL url = getClass().getResource("/shutup.png");
+            if (url == null) throw new IOException("Image not found");
+            img = ImageIO.read(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
