@@ -141,12 +141,12 @@ public class Admin extends Panel {
         namelabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(namelabel);
 
-        Label pricelabel = new Label("Product name:");
+        Label pricelabel = new Label("Product price:");
         pricelabel.setBounds(1015, 200, 200,30);
         pricelabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(pricelabel);
 
-        Label quantitylabel = new Label("Product name:");
+        Label quantitylabel = new Label("Product quantity:");
         quantitylabel.setBounds(1015, 300, 200,30);
         quantitylabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(quantitylabel);
