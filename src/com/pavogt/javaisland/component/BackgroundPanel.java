@@ -16,7 +16,7 @@ public class BackgroundPanel extends Panel
     {
         // Loads the background image and stores in img object.
         try {
-            URL url = getClass().getResource("/shutup.png");
+            URL url = getClass().getResource("/Wood.png");
             if (url == null) throw new IOException("Image not found");
             img = ImageIO.read(url);
         } catch (Exception e) {

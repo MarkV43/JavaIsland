@@ -1,5 +1,6 @@
 package com.pavogt.javaisland.screen;
 
+import com.pavogt.javaisland.component.BackgroundPanel;
 import com.pavogt.javaisland.data.Client;
 import com.pavogt.javaisland.data.Product;
 
@@ -17,7 +18,7 @@ public class Admin extends Panel {
     private Label quantity;
     private Label add;
     private Product[] products;
-    private TextArea price2;
+    BackgroundPanel back;
 
     public Admin(){
 
@@ -98,10 +99,8 @@ public class Admin extends Panel {
 
         stock.setBounds(100,100, 288,300);
         add(stock);
-        
-        
-        
-        setBackground(Color.cyan);
+
+        setBackground(Color.white);
 
         stock.addMouseListener(new MouseAdapter() {
             @Override
@@ -134,21 +133,21 @@ public class Admin extends Panel {
 
         add = new Label("Adicionar produto:");
         add.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
-        add.setBounds(1000,50,200,30);
+        add.setBounds(1000,50,150,30);
         add(add);
 
         Label namelabel = new Label("Product name:");
-        namelabel.setBounds(1015, 100, 200,30);
+        namelabel.setBounds(1015, 100, 120,30);
         namelabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(namelabel);
 
         Label pricelabel = new Label("Product price:");
-        pricelabel.setBounds(1015, 300, 200,30);
+        pricelabel.setBounds(1015, 300, 120,30);
         pricelabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(pricelabel);
 
         Label quantitylabel = new Label("Product quantity:");
-        quantitylabel.setBounds(1015, 200, 200,30);
+        quantitylabel.setBounds(1015, 200, 140,30);
         quantitylabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(quantitylabel);
 
@@ -174,6 +173,10 @@ public class Admin extends Panel {
 
         });
         add(newproduct);
+
+        back = new BackgroundPanel();
+        back.setBounds(0,0,1280,720);
+        add(back);
         
         setLayout(null);
         setBounds(0, 90, 1280, 660);
