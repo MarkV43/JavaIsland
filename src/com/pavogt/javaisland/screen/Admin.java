@@ -15,6 +15,7 @@ public class Admin extends Panel {
     private Label name;
     private Label price;
     private Label quantity;
+    private Label add;
     private Product[] products;
 
     public Admin(){
@@ -62,10 +63,30 @@ public class Admin extends Panel {
         });
         add(bRem);
 
+        Button newproduct = new Button("Add product");
+        newproduct.setBounds(925, 400, 288,30);
+        newproduct.setFont(font2);
+        add(newproduct);
+
         TextArea search = new TextArea("",1,100, TextArea.SCROLLBARS_NONE);
         search.setBounds(100,50, 288,30);
         search.setFont(font2);
         add(search);
+
+        TextArea name2 = new TextArea("",1,100, TextArea.SCROLLBARS_NONE);
+        name2.setBounds(925,150,288,30);
+        name2.setFont(font2);
+        add(name2);
+
+        TextArea quantity2 = new TextArea("",1,100, TextArea.SCROLLBARS_NONE);
+        quantity2.setBounds(925,250,288,30);
+        quantity2.setFont(font2);
+        add(quantity2);
+
+        TextArea price2 = new TextArea("",1,100, TextArea.SCROLLBARS_NONE);
+        price2.setBounds(925,350,288,30);
+        price2.setFont(font2);
+        add(price2);
 
         stock = new List(100, false);
 
@@ -109,6 +130,26 @@ public class Admin extends Panel {
         quantity.setBounds(480, 200, 300, 30);
         quantity.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(quantity);
+
+        add = new Label("Adicionar produto:");
+        add.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add.setBounds(1000,50,200,30);
+        add(add);
+
+        Label namelabel = new Label("Product name:");
+        namelabel.setBounds(1015, 100, 200,30);
+        namelabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(namelabel);
+
+        Label pricelabel = new Label("Product name:");
+        pricelabel.setBounds(1015, 200, 200,30);
+        pricelabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(pricelabel);
+
+        Label quantitylabel = new Label("Product name:");
+        quantitylabel.setBounds(1015, 300, 200,30);
+        quantitylabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(quantitylabel);
         
         setLayout(null);
         setBounds(0, 90, 1280, 660);
