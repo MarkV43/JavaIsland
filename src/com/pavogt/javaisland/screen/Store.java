@@ -1,15 +1,19 @@
 package com.pavogt.javaisland.screen;
 
+import com.pavogt.javaisland.component.BackgroundPanel;
 import com.pavogt.javaisland.component.Scrollable;
 import com.pavogt.javaisland.data.Product;
 
 import javax.swing.*;
 import java.awt.*;
 
+
 public class Store extends Panel {
 
     Scrollable cart;
     Product[] products;
+    BackgroundPanel back;
+
 
     public Store() {
         products = new Product[100];
@@ -52,10 +56,15 @@ public class Store extends Panel {
         gl.setRows(count);
         gl.layoutContainer(cart.getPanel());
 
-        cart.setBounds(500, 10, 500, 500);
+        cart.setBounds(100, 50, 500, 500);
 
         add(cart);
+        back = new BackgroundPanel();
+        back.setBounds(0,0,1280,720);
+        add(back);
+
         setLayout(null);
         setBounds(0, 90, 1280, 660);
     }
+
 }
