@@ -4,6 +4,8 @@ import com.pavogt.javaisland.data.Client;
 import com.pavogt.javaisland.data.Product;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -33,6 +35,15 @@ public class Admin extends Panel {
         Font font = new Font("Rockwell Nova", Font.PLAIN, 50);
         Font font2 = new Font("Rockwell Nova", Font.PLAIN, 25);
         bAdd.setFont(font);
+        bAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                int index = stock.getSelectedIndex();
+                Product h = products[index];
+                h.setQuantity(h.getQuantity()+1);
+                quantity.setText("Quantidade: " + h.getQuantity());
+            }
+        });
         add(bAdd);
 
         Button bRem = new Button("-");
@@ -40,6 +51,15 @@ public class Admin extends Panel {
         bRem.setBackground(Color.RED);
         bRem.setForeground(Color.BLACK);
         bRem.setFont(font);
+        bRem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                int index = stock.getSelectedIndex();
+                Product h = products[index];
+                h.setQuantity(h.getQuantity()-1);
+                quantity.setText("Quantidade: " + h.getQuantity());
+            }
+        });
         add(bRem);
 
         TextArea search = new TextArea("",1,100, TextArea.SCROLLBARS_NONE);
