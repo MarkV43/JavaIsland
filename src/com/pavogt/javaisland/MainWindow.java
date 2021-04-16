@@ -105,7 +105,7 @@ public class MainWindow extends Frame {
         storePanel = new Store();
         clientsPanel.setVisible(false);
         adminPanel.setVisible(false);
-        storePanel.setVisible(false);
+        storePanel.setVisible(true);
         add(clientsPanel);
         add(adminPanel);
         add(storePanel);
