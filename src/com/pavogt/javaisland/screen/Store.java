@@ -2,18 +2,23 @@ package com.pavogt.javaisland.screen;
 
 import com.pavogt.javaisland.component.BackgroundPanel;
 import com.pavogt.javaisland.component.Scrollable;
+import com.pavogt.javaisland.data.Client;
 import com.pavogt.javaisland.data.ClientDataBase;
 import com.pavogt.javaisland.data.Product;
 import com.pavogt.javaisland.data.ProductDataBase;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class Store extends Panel {
 
+    private ArrayList<Client> clients;
+    private ArrayList<Product> products;
+
     Scrollable cart;
-    Product[] products;
     BackgroundPanel back;
 
     private ClientDataBase clientDB;
@@ -47,7 +52,11 @@ public class Store extends Panel {
         products[17] = new Product(3, "RTX 3070", 9003.25f, 1, "");
         products[18] = new Product(4, "RTX 3060", 5036.78f, 7, "");
         products[19] = new Product(5, "Monitor Curvo 1444p", 2230.47f, 6, "");
-        products[20] = new Product(6, "Mouse Gamer 7200dpi", 320.54f, 18, "");*/
+        products[20] = new Product(6, "Mouse Gamer 7200dpi", 320.54f, 18, "");
+
+        this.productDB.getData().addAll(Arrays.asList(products));*/
+        clients = this.clientDB.getData();
+        products = this.productDB.getData();
 
         cart = new Scrollable(new GridLayout(0, 1, 5, 5));
         int count = 0;

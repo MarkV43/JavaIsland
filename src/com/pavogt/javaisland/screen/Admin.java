@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Admin extends Panel {
@@ -20,13 +21,15 @@ public class Admin extends Panel {
     private Label price;
     private Label quantity;
     private Label add;
-    private Product[] products;
+    private ArrayList<Product> products;
     BackgroundPanel back;
     private ProductDataBase productDB;
 
     public Admin(ProductDataBase productDB){
 
         this.productDB = productDB;
+
+        /*
 
         products = new Product[100];
         products[0] = new Product(0, "RTX 3080Ti", 12034.58f, 3, "");
@@ -37,7 +40,8 @@ public class Admin extends Panel {
         products[5] = new Product(5, "Monitor Curvo 1444p", 2230.47f, 6, "");
         products[6] = new Product(6, "Mouse Gamer 7200dpi", 320.54f, 18, "");
 
-        this.productDB.getData().addAll(Arrays.asList(products));
+        this.productDB.getData().addAll(Arrays.asList(products));*/
+        products = this.productDB.getData();
 
         Button bAdd = new Button("+");
         bAdd.setBounds(50, 50, 30, 30);
@@ -46,14 +50,11 @@ public class Admin extends Panel {
         Font font = new Font("Rockwell Nova", Font.PLAIN, 50);
         Font font2 = new Font("Rockwell Nova", Font.PLAIN, 25);
         bAdd.setFont(font);
-        bAdd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                int index = stock.getSelectedIndex();
-                Product h = products[index];
-                h.setQuantity(h.getQuantity()+1);
-                quantity.setText("Quantidade: " + h.getQuantity());
-            }
+        bAdd.addActionListener(e -> {
+            int index = stock.getSelectedIndex();
+            Product h = products.get(index);
+            h.setQuantity(h.getQuantity()+1);
+            quantity.setText("Quantidade: " + h.getQuantity());
         });
         add(bAdd);
 
@@ -62,14 +63,11 @@ public class Admin extends Panel {
         bRem.setBackground(Color.RED);
         bRem.setForeground(Color.BLACK);
         bRem.setFont(font);
-        bRem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                int index = stock.getSelectedIndex();
-                Product h = products[index];
-                h.setQuantity(h.getQuantity()-1);
-                quantity.setText("Quantidade: " + h.getQuantity());
-            }
+        bRem.addActionListener(e -> {
+            int index = stock.getSelectedIndex();
+            Product h = products.get(index);
+            h.setQuantity(h.getQuantity()-1);
+            quantity.setText("Quantidade: " + h.getQuantity());
         });
         add(bRem);
 
@@ -101,8 +99,8 @@ public class Admin extends Panel {
         stock = new List(100, false);
 
         for (int i = 0; i < 100; i++) {
-            if (products[i] == null) break;
-            stock.add(products[i].getName());
+            if (products.get(i) == null) break;
+            stock.add(products.get(i).getName());
         }
 
         stock.setBounds(100,100, 288,300);
@@ -163,22 +161,18 @@ public class Admin extends Panel {
         Button newproduct = new Button("Add product");
         newproduct.setBounds(925, 400, 288,30);
         newproduct.setFont(font2);
-        newproduct.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int pindex = 0;
-                for (int i = 0; i < products.length; i++)
-                    if (products[i] != null)
-                        pindex++;
+        newproduct.addActionListener(e -> {
+            int pindex = 0;
+            for (int i = 0; i < products.size(); i++)
+                if (products.get(i) != null)
+                    pindex++;
 
-                products[pindex] = new Product(pindex,name2.getText() , Float.parseFloat(price2.getText()), Integer.parseInt(quantity2.getText()), "");
+            products.set(pindex, new Product(pindex, name2.getText(), Float.parseFloat(price2.getText()), Integer.parseInt(quantity2.getText()), ""));
 
-                for (int i = pindex; i < 100; i++) {
-                    if (products[i] == null) break;
-                    stock.add(products[i].getName());
-                }
+            for (int i = pindex; i < 100; i++) {
+                if (products.get(i) == null) break;
+                stock.add(products.get(i).getName());
             }
-
         });
         add(newproduct);
 
@@ -193,7 +187,7 @@ public class Admin extends Panel {
     }
     void itemClicked() {
         int index = stock.getSelectedIndex();
-        Product c = products[index];
+        Product c = products.get(index);
         name.setText(c.getName());
         price.setText("R$ " + Float.toString(c.getPrice()));
         quantity.setText("Quantidade: " + c.getQuantity());
