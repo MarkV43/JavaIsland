@@ -1,12 +1,14 @@
 package com.pavogt.javaisland.screen;
 
 import com.pavogt.javaisland.data.Client;
+import com.pavogt.javaisland.data.ClientDataBase;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Arrays;
 
 public class Clients extends Panel {
 
@@ -16,8 +18,11 @@ public class Clients extends Panel {
     private Label email;
     private Label balance;
     private List history;
+    private ClientDataBase clientDB;
 
-    public Clients() {
+    public Clients(ClientDataBase clientDB) {
+        this.clientDB = clientDB;
+
         Button bAdd = new Button("+");
         bAdd.setBounds(20, 20, 30, 30);
         Font font = new Font("Rockwell Nova", Font.PLAIN, 28);
@@ -36,6 +41,8 @@ public class Clients extends Panel {
         clients[3] = new Client(3, "Eduardo", "eduardo@gmail.com", 0, 0, false);
         clients[4] = new Client(4, "Gabriel", "gabriel@gmail.com", 0, 10, false);
         clients[5] = new Client(5, "Marechal Luciolo", "luciolo@marechal.gov.br", 0, 1000000, false);
+
+        this.clientDB.getData().addAll(Arrays.asList(clients));
 
         list = new List(100, false);
         for (int i = 0; i < 100; i++) {

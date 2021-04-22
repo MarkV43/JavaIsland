@@ -1,9 +1,10 @@
 package com.pavogt.javaisland.data;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public abstract class DataBase<T extends Serializable> {
-    private T[] data;
+    private ArrayList<T> data;
     private final String filename;
 
     public DataBase(String filename) {
@@ -28,5 +29,13 @@ public abstract class DataBase<T extends Serializable> {
         objectInputStream.close();
     }
 
-    abstract T[] cast(Object[] array);
+    abstract ArrayList<T> cast(Object[] array);
+
+    public ArrayList<T> getData() {
+        return data;
+    }
+
+    public void setData(ArrayList<T> data) {
+        this.data = data;
+    }
 }

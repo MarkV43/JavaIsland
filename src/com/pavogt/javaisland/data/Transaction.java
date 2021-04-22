@@ -8,8 +8,8 @@ public class Transaction implements Serializable {
 
     private long uuid;
     private float price;
-    private String description;
 
-    private Product[] products;
+    private long[] products;
+    private int[] amounts;
 
 }

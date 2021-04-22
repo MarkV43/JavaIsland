@@ -6,7 +6,7 @@ public class Product implements Serializable {
 
     public static final long serialVersionUID = 2L;
 
-    private long uuid;
+    private final long uuid;
     private String name;
     private float price;
     private int quantity;
