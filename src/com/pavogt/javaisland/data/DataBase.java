@@ -14,6 +14,7 @@ public abstract class DataBase<T extends Serializable> {
 
     public DataBase(String filename) {
         this.filename = filename;
+        listeners = new ArrayList<>(10);
     }
 
     public void store() throws IOException {

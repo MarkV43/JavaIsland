@@ -7,12 +7,11 @@ import com.pavogt.javaisland.data.DataBaseListener;
 import com.pavogt.javaisland.data.Product;
 import com.pavogt.javaisland.data.ProductDataBase;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
 
-public class Store extends Panel implements DataBaseListener {
+public class Store extends Panel {
 
     Scrollable cart;
     ArrayList<Product> products;
@@ -27,7 +26,8 @@ public class Store extends Panel implements DataBaseListener {
         this.clientDB = clientDB;
         this.productDB = productDB;
 
-        productDB.addListener(this);
+        clientDB.addListener(this::clientDataBaseChanged);
+        productDB.addListener(this::productDataBaseChanged);
 
         products = productDB.getData();
 
@@ -59,8 +59,11 @@ public class Store extends Panel implements DataBaseListener {
         setBounds(0, 90, 1280, 660);
     }
 
-    @Override
-    public void dataBaseChanged() {
+    public void clientDataBaseChanged() {
+
+    }
+
+    public void productDataBaseChanged() {
         // TODO atualizar tela
         // banco de dados pode ser tanto maior quanto menor que antes
     }

@@ -2,6 +2,7 @@ package com.pavogt.javaisland.screen;
 
 import com.pavogt.javaisland.data.Client;
 import com.pavogt.javaisland.data.ClientDataBase;
+import com.pavogt.javaisland.data.DataBaseListener;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +12,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Clients extends Panel {
+public class Clients extends Panel implements DataBaseListener {
 
     private ArrayList<Client> clients;
     private List list;
@@ -23,6 +24,7 @@ public class Clients extends Panel {
 
     public Clients(ClientDataBase clientDB) {
         this.clientDB = clientDB;
+        this.clientDB.addListener(this);
 
         Button bAdd = new Button("+");
         bAdd.setBounds(20, 20, 30, 30);
@@ -83,5 +85,10 @@ public class Clients extends Panel {
         name.setText(c.getName());
         email.setText(c.getEmail());
         balance.setText("R$ " + c.getBalance());
+    }
+
+    @Override
+    public void dataBaseChanged() {
+
     }
 }
