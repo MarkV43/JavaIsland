@@ -193,7 +193,7 @@ public class Admin extends Panel implements DataBaseListener {
         add(newproduct);
 
         Button begoneproduct = new Button("Remover produto");
-        begoneproduct.setBounds(100,450, 288,30);
+        begoneproduct.setBounds(486,410, 288,30);
         begoneproduct.setFont(font2);
         begoneproduct.addActionListener(e -> {
                     int index = stock.getSelectedIndex();
