@@ -14,18 +14,21 @@ import java.util.Arrays;
 
 public class Clients extends Panel implements DataBaseListener {
 
-    private ArrayList<Client> clients;
     private List list;
     private Label name;
     private Label email;
     private Label balance;
     private List history;
-    private ClientDataBase clientDB;
+    private final ClientDataBase clientDB;
 
     public Clients(ClientDataBase clientDB) {
         this.clientDB = clientDB;
         this.clientDB.addListener(this);
 
+        makeScreen();
+    }
+
+    void makeScreen() {
         Button bAdd = new Button("+");
         bAdd.setBounds(20, 20, 30, 30);
         Font font = new Font("Rockwell Nova", Font.PLAIN, 28);
@@ -37,12 +40,8 @@ public class Clients extends Panel implements DataBaseListener {
         search.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(search);
 
-        clients = this.clientDB.getData();
-
-        System.out.println("clients = " + clients);
-
         list = new List(100, false);
-        for (Client client: clients) {
+        for (Client client: clientDB.getData()) {
             list.add(client.getName());
         }
         list.setBounds(20, 60, 340, 580);
@@ -81,7 +80,7 @@ public class Clients extends Panel implements DataBaseListener {
 
     void itemClicked() {
         int index = list.getSelectedIndex();
-        Client c = clients.get(index);
+        Client c = clientDB.getData().get(index);
         name.setText(c.getName());
         email.setText(c.getEmail());
         balance.setText("R$ " + c.getBalance());
@@ -89,6 +88,9 @@ public class Clients extends Panel implements DataBaseListener {
 
     @Override
     public void dataBaseChanged() {
-
+        list.removeAll();
+        for (Client cli : clientDB.getData()) {
+            list.add(cli.getName());
+        }
     }
 }
