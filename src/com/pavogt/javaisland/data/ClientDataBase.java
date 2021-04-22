@@ -1,8 +1,5 @@
 package com.pavogt.javaisland.data;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class ClientDataBase extends DataBase<Client> {
 
     public ClientDataBase(String filename) {
@@ -10,7 +7,7 @@ public class ClientDataBase extends DataBase<Client> {
     }
 
     @Override
-    ArrayList<Client> cast(Object[] array) {
-        return new ArrayList<>(Arrays.asList((Client[]) array));
+    Client cast(Object obj) {
+        return (Client) obj;
     }
 }

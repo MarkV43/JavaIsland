@@ -2,6 +2,8 @@ package com.pavogt.javaisland.data;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public abstract class DataBase<T extends Serializable> {
     private ArrayList<T> data;
@@ -20,20 +22,21 @@ public abstract class DataBase<T extends Serializable> {
         objectOutputStream.close();
     }
 
-    public void read() throws IOException, ClassNotFoundException {
+    public void read() throws ClassNotFoundException {
         try {
             FileInputStream fileInputStream = new FileInputStream(filename);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
-            Object[] objs = (Object[]) objectInputStream.readObject();
-            data = cast(objs);
+            ArrayList<Object> objs = new ArrayList<>((Collection<?>) objectInputStream.readObject());
+            data = objs.stream().map(this::cast).collect(Collectors.toCollection(ArrayList::new));;
             objectInputStream.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
+            e.printStackTrace();
             data = new ArrayList<>();
         }
     }
 
-    abstract ArrayList<T> cast(Object[] array);
+    abstract T cast(Object obj);
 
     public ArrayList<T> getData() {
         return data;

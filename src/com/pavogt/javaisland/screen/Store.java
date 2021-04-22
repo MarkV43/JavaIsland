@@ -8,12 +8,13 @@ import com.pavogt.javaisland.data.ProductDataBase;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 
 public class Store extends Panel {
 
     Scrollable cart;
-    Product[] products;
+    ArrayList<Product> products;
     BackgroundPanel back;
 
     private ClientDataBase clientDB;
@@ -48,6 +49,8 @@ public class Store extends Panel {
         products[18] = new Product(4, "RTX 3060", 5036.78f, 7, "");
         products[19] = new Product(5, "Monitor Curvo 1444p", 2230.47f, 6, "");
         products[20] = new Product(6, "Mouse Gamer 7200dpi", 320.54f, 18, "");*/
+
+        products = productDB.getData();
 
         cart = new Scrollable(new GridLayout(0, 1, 5, 5));
         int count = 0;

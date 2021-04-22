@@ -92,7 +92,7 @@ public class MainWindow extends Frame {
 
         clientsPanel = new Clients(clientDB);
         adminPanel = new Admin(productDB);
-        storePanel = new Store(productDB, clientDB);
+        storePanel = new Store(clientDB, productDB);
 
         clientsPanel.setVisible(true);
         adminPanel.setVisible(false);
