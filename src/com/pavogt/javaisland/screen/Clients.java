@@ -182,7 +182,7 @@ public class Clients extends Panel implements DataBaseListener {
                     c.getPassword(),
                     Float.parseFloat(balance.getText()),
                     false,
-                    history2);
+                    c.getHistory());
             clientDB.mod(index, tempprod);
         });
 
