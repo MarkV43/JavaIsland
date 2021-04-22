@@ -1,8 +1,5 @@
 package com.pavogt.javaisland.data;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class ProductDataBase extends DataBase<Product> {
 
     public ProductDataBase(String filename) {
@@ -10,7 +7,7 @@ public class ProductDataBase extends DataBase<Product> {
     }
 
     @Override
-    ArrayList<Product> cast(Object[] array) {
-        return new ArrayList<>(Arrays.asList((Product[]) array));
+    Product cast(Object obj) {
+        return (Product) obj;
     }
 }
