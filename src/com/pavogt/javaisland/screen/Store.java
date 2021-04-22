@@ -64,7 +64,11 @@ public class Store extends Panel {
     }
 
     public void productDataBaseChanged() {
-        // TODO atualizar tela
-        // banco de dados pode ser tanto maior quanto menor que antes
+        System.out.println("Estive aqui!");
+        cart.removeAll();
+        for (Product stk : productDB.getData()) {
+            cart.add(stk.getName());
+
+        }
     }
 }

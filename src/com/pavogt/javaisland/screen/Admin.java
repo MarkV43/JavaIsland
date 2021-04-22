@@ -166,7 +166,7 @@ public class Admin extends Panel implements DataBaseListener {
                     Integer.parseInt(quantity2.getText()),
                     "");
 
-            products.add(prod);
+            productDB.add(prod);
         });
         add(newproduct);
 
@@ -190,7 +190,11 @@ public class Admin extends Panel implements DataBaseListener {
 
     @Override
     public void dataBaseChanged() {
-        // TODO atualizar tela
-        // banco de dados pode ser tanto maior quanto menor que antes
+        System.out.println("Estive aqui!");
+        stock.removeAll();
+        for (Product stk : productDB.getData()) {
+            stock.add(stk.getName());
+
+        }
     }
 }
