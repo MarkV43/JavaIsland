@@ -10,16 +10,21 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static java.lang.Float.parseFloat;
+
 public class Clients extends Panel implements DataBaseListener {
 
     private List list;
-    private Label name;
-    private Label email;
-    private Label balance;
+    private TextArea name;
+    private TextArea email;
+    private TextArea balance;
     private TextArea email2;
     private TextArea balance2;
     private TextArea name2;
     private TextArea password2;
+    private Label lname;
+    private Label lbalance;
+    private Label lemail;
     private List history;
     private final ClientDataBase clientDB;
     private ArrayList<Client> clients;
@@ -63,20 +68,32 @@ public class Clients extends Panel implements DataBaseListener {
         list.addActionListener(e -> itemClicked());
         add(list);
 
-        name = new Label("");
-        name.setBounds(380, 20, 300, 30);
+        name = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
+        name.setBounds(460, 20, 300, 30);
         name.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(name);
+        lname = new Label("Name:");
+        lname.setBounds(380,20,70,30);
+        lname.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(lname);
 
-        email = new Label("");
-        email.setBounds(380, 70, 300, 30);
+        email = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
+        email.setBounds(460, 70, 300, 30);
         email.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(email);
+        lemail = new Label("E-mail:");
+        lemail.setBounds(380,70,70,30);
+        lemail.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(lemail);
 
-        balance = new Label("");
-        balance.setBounds(380, 120, 300, 30);
+        balance = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
+        balance.setBounds(460, 120, 300, 30);
         balance.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(balance);
+        lbalance = new Label("Balance:");
+        lbalance.setBounds(380,120,70,30);
+        lbalance.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(lbalance);
 
         Label namelabel = new Label("Name:");
         namelabel.setBounds(1015, 100, 120, 30);
@@ -117,7 +134,7 @@ public class Clients extends Panel implements DataBaseListener {
                     name2.getText(),
                     email2.getText(),
                     Long.parseLong(password2.getText()),
-                    Float.parseFloat(balance2.getText()),
+                    parseFloat(balance2.getText()),
                     false, history2);
 
             name2.setText("");
@@ -141,6 +158,25 @@ public class Clients extends Panel implements DataBaseListener {
 
         });
 
+        Button saveclient = new Button("Salve client");
+        saveclient.setBounds(486,370, 288,30);
+        saveclient.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        saveclient.addActionListener(e -> {
+            Client tempprod;
+            int index = list.getSelectedIndex();
+            Client c = clientDB.getData().get(index);
+            tempprod = new Client( c.getUuid(),
+                    name.getText(),
+                    email.getText(),
+                    c.getPassword(),
+                    Float.parseFloat(balance.getText()),
+                    false,
+                    history2);
+            clientDB.mod(index, tempprod);
+        });
+
+        add(saveclient);
+
         add(begoneclient);
 
         setLayout(null);
@@ -154,7 +190,7 @@ public class Clients extends Panel implements DataBaseListener {
         Client c = clientDB.getData().get(index);
         name.setText(c.getName());
         email.setText(c.getEmail());
-        balance.setText("R$ " + c.getBalance());
+        balance.setText(Float.toString(c.getBalance()));
     }
 
     @Override
