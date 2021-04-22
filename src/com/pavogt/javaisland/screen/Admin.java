@@ -17,6 +17,7 @@ public class Admin extends Panel implements DataBaseListener {
     private TextArea name;
     private TextArea price;
     private TextArea quantity;
+    private TextArea description;
     private Label add;
     private ArrayList<Product> products;
     BackgroundPanel back;
@@ -42,7 +43,7 @@ public class Admin extends Panel implements DataBaseListener {
             int index = stock.getSelectedIndex();
             Product h = products.get(index);
             h.setQuantity(h.getQuantity() + 1);
-            quantity.setText("Quantidade: " + h.getQuantity());
+            quantity.setText(Integer.toString(h.getQuantity()));
         });
         add(bAdd);
 
@@ -55,7 +56,7 @@ public class Admin extends Panel implements DataBaseListener {
             int index = stock.getSelectedIndex();
             Product h = products.get(index);
             h.setQuantity(h.getQuantity() - 1);
-            quantity.setText("Quantidade: " + h.getQuantity());
+            quantity.setText(Integer.toString(h.getQuantity()));
         });
         add(bRem);
 
@@ -120,6 +121,11 @@ public class Admin extends Panel implements DataBaseListener {
         quantity.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(quantity);
 
+        description = new TextArea("",6,100, TextArea.SCROLLBARS_NONE);
+        description.setBounds(620, 250, 160,100);
+        description.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(description);
+
         add = new Label("Adicionar produto:");
         add.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add.setBounds(1000, 50, 150, 30);
@@ -141,12 +147,12 @@ public class Admin extends Panel implements DataBaseListener {
         add(quantitylabel);
 
         Label namelabel2 = new Label("Product name:");
-        namelabel2.setBounds(480, 100, 120, 30);
+        namelabel2.setBounds(480, 100, 140, 30);
         namelabel2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(namelabel2);
 
-        Label pricelabel2 = new Label("Product price:");
-        pricelabel2.setBounds(480, 150, 120, 30);
+        Label pricelabel2 = new Label("Product price: R$");
+        pricelabel2.setBounds(480, 150, 140, 30);
         pricelabel2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(pricelabel2);
 
@@ -154,6 +160,11 @@ public class Admin extends Panel implements DataBaseListener {
         quantitylabel2.setBounds(480, 200, 140, 30);
         quantitylabel2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(quantitylabel2);
+
+        Label description2 = new Label("Description:");
+        description2.setBounds(480, 250, 140, 30);
+        description2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(description2);
 
 
 
@@ -193,12 +204,12 @@ public class Admin extends Panel implements DataBaseListener {
         add(begoneproduct);
 
         Button saveproduct = new Button("Salvar produto");
-        saveproduct.setBounds(486,250, 288,30);
+        saveproduct.setBounds(486,370, 288,30);
         saveproduct.setFont(font2);
         saveproduct.addActionListener(e -> {
             Product tempprod;
             int index = stock.getSelectedIndex();
-            tempprod = new Product(index,name.getText(), Float.parseFloat(price.getText()), Integer.parseInt(quantity.getText()), "");
+            tempprod = new Product(index,name.getText(), Float.parseFloat(price.getText()), Integer.parseInt(quantity.getText()), description.getText());
             productDB.mod(index, tempprod);
         });
 
@@ -222,6 +233,7 @@ public class Admin extends Panel implements DataBaseListener {
         name.setText(c.getName());
         price.setText(Float.toString(c.getPrice()));
         quantity.setText(Integer.toString(c.getQuantity()));
+        description.setText(c.getDescription());
     }
 
     @Override
