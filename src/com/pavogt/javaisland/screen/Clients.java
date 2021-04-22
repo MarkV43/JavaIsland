@@ -121,7 +121,7 @@ public class Clients extends Panel implements DataBaseListener {
         add(balance2);
 
         Button newclient = new Button("Add client");
-        newclient.setBounds(925, 500, 288, 30);
+        newclient.setBounds(905, 500, 288, 30);
         newclient.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         newclient.addActionListener(e -> {
             long uuid = 0;
@@ -158,7 +158,7 @@ public class Clients extends Panel implements DataBaseListener {
 
         });
 
-        Button saveclient = new Button("Salve client");
+        Button saveclient = new Button("Save client");
         saveclient.setBounds(486,370, 288,30);
         saveclient.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         saveclient.addActionListener(e -> {

@@ -126,7 +126,7 @@ public class Admin extends Panel implements DataBaseListener {
         description.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(description);
 
-        add = new Label("Adicionar produto:");
+        add = new Label("Add product:");
         add.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add.setBounds(1000, 50, 150, 30);
         add(add);
@@ -192,7 +192,7 @@ public class Admin extends Panel implements DataBaseListener {
         });
         add(newproduct);
 
-        Button begoneproduct = new Button("Remover produto");
+        Button begoneproduct = new Button("Remove product");
         begoneproduct.setBounds(486,410, 288,30);
         begoneproduct.setFont(font2);
         begoneproduct.addActionListener(e -> {
@@ -207,7 +207,7 @@ public class Admin extends Panel implements DataBaseListener {
 
         add(begoneproduct);
 
-        Button saveproduct = new Button("Salvar produto");
+        Button saveproduct = new Button("Save product");
         saveproduct.setBounds(486,370, 288,30);
         saveproduct.setFont(font2);
         saveproduct.addActionListener(e -> {
@@ -242,7 +242,6 @@ public class Admin extends Panel implements DataBaseListener {
 
     @Override
     public void dataBaseChanged() {
-        System.out.println("Estive aqui!");
         stock.removeAll();
         for (Product stk : productDB.getData()) {
             stock.add(stk.getName());
