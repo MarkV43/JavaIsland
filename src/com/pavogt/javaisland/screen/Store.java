@@ -64,11 +64,11 @@ public class Store extends Panel {
     }
 
     public void productDataBaseChanged() {
-        System.out.println("Estive aqui!");
+        /*System.out.println("Estive aqui!");
         cart.removeAll();
         for (Product stk : productDB.getData()) {
             cart.add(stk.getName());
 
-        }
+        }*/
     }
 }
