@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Store extends Panel {
 
-    Scrollable cart;
+    List cart;
     ArrayList<Product> products;
     BackgroundPanel back;
 
@@ -31,22 +31,11 @@ public class Store extends Panel {
 
         products = productDB.getData();
 
-        cart = new Scrollable(new GridLayout(0, 1, 5, 5));
-        int count = 0;
+        cart = new List(100, false);
 
         for (Product product : products) {
-            if (product == null) break;
-            Panel p = new Panel();
-            p.add(new Label(product.getName()));
-            p.add(new Label("R$ " + product.getPrice()));
-            p.setBackground(Color.RED);
-            cart.getPanel().add(p);
-            count++;
+            cart.add(product.getName() + " - R$ " + product.getPrice());
         }
-
-        GridLayout gl = ((GridLayout) cart.getPanel().getLayout());
-        gl.setRows(count);
-        gl.layoutContainer(cart.getPanel());
 
         cart.setBounds(100, 50, 500, 500);
 
@@ -64,11 +53,9 @@ public class Store extends Panel {
     }
 
     public void productDataBaseChanged() {
-        /*System.out.println("Estive aqui!");
         cart.removeAll();
-        for (Product stk : productDB.getData()) {
-            cart.add(stk.getName());
-
-        }*/
+        for (Product product : products) {
+            cart.add(product.getName() + " - R$ " + product.getPrice());
+        }
     }
 }

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public abstract class DataBase<T extends Serializable> {
     private ArrayList<T> data;
     private final String filename;
-    private ArrayList<DataBaseListener> listeners;
+    private final ArrayList<DataBaseListener> listeners;
 
     public DataBase(String filename) {
         this.filename = filename;

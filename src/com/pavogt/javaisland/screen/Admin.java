@@ -27,15 +27,6 @@ public class Admin extends Panel implements DataBaseListener {
         this.productDB = productDB;
         this.productDB.addListener(this);
 
-        /*var _products = new Product[100];
-        _products[0] = new Product(0, "RTX 3080Ti", 12034.58f, 3, "");
-        _products[1] = new Product(1, "RTX 3070Ti", 10422.66f, 12, "");
-        _products[2] = new Product(2, "RTX 3060Ti", 8050.36f, 5, "");
-        _products[3] = new Product(3, "RTX 3070", 9003.25f, 1, "");
-        _products[4] = new Product(4, "RTX 3060", 5036.78f, 7, "");
-        _products[5] = new Product(5, "Monitor Curvo 1444p", 2230.47f, 6, "");
-        _products[6] = new Product(6, "Mouse Gamer 7200dpi", 320.54f, 18, "");*/
-
         products = this.productDB.getData();
 
         System.out.println("products = " + products);
