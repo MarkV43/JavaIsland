@@ -17,17 +17,21 @@ public class Cart extends Panel implements CartListener, LoginListener {
     private final ProductDataBase productDB;
     private final LoginManager loginManager;
     private final CartManager cartManager;
+    TextArea productDescription;
+
+    Font font1 = new Font("Rockwell Nova", Font.PLAIN, 25);
+    Font font2 = new Font("Rockwell Nova", Font.PLAIN, 18);
 
     private List productList;
     Label productName;
     Label productPrice;
-    Label productDescription;
     Label productAmount;
 
     TextField username;
     JPasswordField password;
     Button login;
     Label welcome;
+    Button removeItem;
 
     private Product selectedProduct;
 
@@ -52,7 +56,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
             productList.add(product.getName() + " - R$ " + product.getPrice() + " - " + cartManager.getAmount(uuid));
         }
 
-        productList.setBounds(100, 50, 300, 500);
+        productList.setBounds(20, 60, 340, 580);
 
         productList.addActionListener(this::productSelected);
         productList.addMouseListener(new MouseAdapter() {
@@ -70,17 +74,31 @@ public class Cart extends Panel implements CartListener, LoginListener {
         add(productList);
 
         productName = new Label("Name");
-        productName.setBounds(480, 100, 140, 30);
+        productName.setBounds(480, 60, 140, 30);
+        productName.setFont(font2);
         productPrice = new Label("Price");
-        productPrice.setBounds(480, 150, 140, 30);
-        productDescription = new Label("Desc");
-        productDescription.setBounds(480, 200, 140, 100);
+        productPrice.setBounds(480, 110, 140, 30);
+        productPrice.setFont(font2);
+        productDescription = new TextArea("",6,100, TextArea.SCROLLBARS_NONE);
+        productDescription.setBounds(480, 160, 300, 200);
+        productDescription.setFont(font2);
         productAmount = new Label("Qtd");
-        productAmount.setBounds(510, 320, 80,30);
+        productAmount.setBounds(585, 370, 80,30);
+        productAmount.setFont(font2);
+
+        removeItem = new Button("Remove item");
+        removeItem.setBounds(480,410,300,30);
+        removeItem.setFont(font2);
+
+        Label productslist = new Label("ITEMS:");
+        productslist.setFont(font1);
+        productslist.setBounds(140,20,200,30);
+
+
         Button amountLess = new Button("-");
         Button amountMore = new Button("+");
-        amountLess.setBounds(480, 320, 30, 30);
-        amountMore.setBounds(590, 320, 30, 30);
+        amountLess.setBounds(555, 370, 30, 30);
+        amountMore.setBounds(665, 370, 30, 30);
 
         amountLess.addActionListener(e -> {
             int amount = Math.max(cartManager.getAmount(selectedProduct) - 1, 1);
@@ -93,12 +111,16 @@ public class Cart extends Panel implements CartListener, LoginListener {
             cartManager.changeAmount(selectedProduct, amount);
         });
 
+
         add(productName);
         add(productPrice);
         add(productDescription);
         add(productAmount);
         add(amountLess);
         add(amountMore);
+        add(removeItem);
+        add(productList);
+        add(productslist);
 
 
         username = new TextField();
@@ -125,9 +147,8 @@ public class Cart extends Panel implements CartListener, LoginListener {
 
         BackgroundPanel back = new BackgroundPanel();
         back.setBounds(0,0,1280,720);
-        add(back);
 
-
+        setBackground(Color.LIGHT_GRAY);
         setLayout(null);
         setBounds(0, 90, 1280, 660);
     }

@@ -1,5 +1,6 @@
 package com.pavogt.javaisland;
 
+import com.pavogt.javaisland.data.CartListener;
 import com.pavogt.javaisland.data.Client;
 import com.pavogt.javaisland.data.ClientDataBase;
 import com.pavogt.javaisland.data.ProductDataBase;
@@ -10,7 +11,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
-public class MainWindow extends Frame {
+public class MainWindow extends Frame implements CartListener {
 
     private Panel clientsPanel;
     private Panel adminPanel;
@@ -21,6 +22,7 @@ public class MainWindow extends Frame {
     private final ProductDataBase productDB;
     private final LoginManager loginManager;
     private final CartManager cartManager;
+    private Button cart;
 
     public MainWindow() {
         super();
@@ -29,6 +31,8 @@ public class MainWindow extends Frame {
         productDB = new ProductDataBase("product.dat");
         loginManager = new LoginManager(clientDB);
         cartManager = new CartManager();
+
+        cartManager.addListener(this);
 
         try {
             clientDB.read();
@@ -80,7 +84,7 @@ public class MainWindow extends Frame {
         });
         add(store);
 
-        Button cart = new Button("Carrinho");
+        cart = new Button("Carrinho (" + cartManager.getSize() + ")");
         cart.setBounds(960, 30, 320, 60);
         cart.addActionListener(e -> {
             clientsPanel.setVisible(false);
@@ -111,5 +115,10 @@ public class MainWindow extends Frame {
         setLayout(null);
         setVisible(true);
         setSize(1280, 750);
+    }
+
+    @Override
+    public void cartChanged() {
+        cart.setLabel("Carrinho (" + cartManager.getSize() + ")");
     }
 }
