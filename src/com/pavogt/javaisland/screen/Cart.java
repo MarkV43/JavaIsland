@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 
 public class Cart extends Panel implements CartListener, LoginListener {
     private final ClientDataBase clientDB;
@@ -32,6 +33,10 @@ public class Cart extends Panel implements CartListener, LoginListener {
     Button login;
     Label welcome;
     Button removeItem;
+    Label totalPrice;
+    Button finishBuying;
+
+    float priceTot;
 
     private Product selectedProduct;
 
@@ -56,7 +61,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
             productList.add(product.getName() + " - R$ " + product.getPrice() + " - " + cartManager.getAmount(uuid));
         }
 
-        productList.setBounds(20, 60, 340, 580);
+        productList.setBounds(20, 60, 340, 540);
 
         productList.addActionListener(this::productSelected);
         productList.addMouseListener(new MouseAdapter() {
@@ -73,6 +78,14 @@ public class Cart extends Panel implements CartListener, LoginListener {
 
         add(productList);
 
+        finishBuying = new Button("Finalizar Compra");
+        finishBuying.setBounds(20, 610, 340, 30);
+        finishBuying.addActionListener(e -> {
+            finishPurchase();
+        });
+        finishBuying.setEnabled(false);
+        add(finishBuying);
+
         productName = new Label("Name");
         productName.setBounds(480, 60, 140, 30);
         productName.setFont(font2);
@@ -85,10 +98,16 @@ public class Cart extends Panel implements CartListener, LoginListener {
         productAmount = new Label("Qtd");
         productAmount.setBounds(585, 370, 80,30);
         productAmount.setFont(font2);
+        totalPrice = new Label("Price");
+        totalPrice.setBounds(480, 470, 140, 30);
 
         removeItem = new Button("Remove item");
         removeItem.setBounds(480,410,300,30);
         removeItem.setFont(font2);
+        removeItem.addActionListener(e -> {
+            cartManager.removeProduct(selectedProduct);
+            selectedProduct = null;
+        });
 
         Label productslist = new Label("ITEMS:");
         productslist.setFont(font1);
@@ -121,6 +140,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
         add(removeItem);
         add(productList);
         add(productslist);
+        add(totalPrice);
 
 
         username = new TextField();
@@ -141,7 +161,6 @@ public class Cart extends Panel implements CartListener, LoginListener {
 
         welcome = new Label("Bem vindo, <insira o nome aqui>", Label.RIGHT);
         welcome.setBounds(960, 20, 300, 30);
-
         welcome.setVisible(false);
         add(welcome);
 
@@ -165,35 +184,55 @@ public class Cart extends Panel implements CartListener, LoginListener {
         }
     }
 
+    void finishPurchase() {
+        Client c = loginManager.getLoggedUser();
+        if (c.getBalance() >= priceTot) {
+            c.setBalance(c.getBalance() - priceTot);
+
+            Transaction trans = new Transaction(priceTot, cartManager.getProductList(), cartManager.getAmountList());
+
+            c.addToHistory(trans);
+
+            cartManager.removeAll();
+        }
+    }
+
     @Override
     public void cartChanged() {
         productList.removeAll();
 
+        priceTot = 0;
         for (long uuid : cartManager.getProductList()) {
             Product product = productDB.getFromUuid(uuid);
 
             productList.add(product.getName() + " - R$ " + product.getPrice() + " - " + cartManager.getAmount(uuid));
+            priceTot += product.getPrice() * cartManager.getAmount(uuid);
         }
 
-        if (selectedProduct != null)
+        totalPrice.setText("Total: R$ " + String.format("%.2f", priceTot));
+
+        if (selectedProduct != null) {
             productList.select(cartManager.indexOf(selectedProduct));
+        }
         productSelected(null);
     }
 
     @Override
     public void loginChanged() {
-        System.out.println("HAHAHA");
         if (loginManager.isLoggedIn()) {
             username.setVisible(false);
             password.setVisible(false);
             login.setVisible(false);
             welcome.setVisible(true);
-            welcome.setText("Bem vindo, " + loginManager.getLoggedUser().getName());
+            welcome.setText("Bem vindo, " + loginManager.getLoggedUser().getName() + ". Você tem R$ " + loginManager.getLoggedUser().getBalance());
+            finishBuying.setEnabled(true);
+
         } else {
             username.setVisible(true);
             password.setVisible(true);
             login.setVisible(true);
             welcome.setVisible(false);
+            finishBuying.setEnabled(false);
         }
     }
 }

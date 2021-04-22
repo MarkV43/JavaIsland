@@ -27,8 +27,9 @@ public class Clients extends Panel implements DataBaseListener {
     private Label lemail;
     private List history;
     private final ClientDataBase clientDB;
-    private ArrayList<Client> clients;
     private ArrayList<Transaction> history2;
+
+    private Client selectedClient = null;
 
     public Clients(ClientDataBase clientDB) {
         this.clientDB = clientDB;
@@ -94,6 +95,10 @@ public class Clients extends Panel implements DataBaseListener {
         lbalance.setBounds(380,120,70,30);
         lbalance.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(lbalance);
+
+        history = new List(100, false);
+        history.setBounds(460, 270, 300, 300);
+        add(history);
 
         Label namelabel = new Label("Name:");
         namelabel.setBounds(1015, 100, 120, 30);
@@ -199,9 +204,14 @@ public class Clients extends Panel implements DataBaseListener {
     void itemClicked() {
         int index = list.getSelectedIndex();
         Client c = clientDB.getData().get(index);
+        selectedClient = c;
         name.setText(c.getName());
         email.setText(c.getEmail());
         balance.setText(Float.toString(c.getBalance()));
+
+        for (Transaction t : c.getHistory()) {
+            history.add(t.getPrice() + " - " + t.getProducts().size() + " Products");
+        }
     }
 
     @Override
@@ -209,6 +219,13 @@ public class Clients extends Panel implements DataBaseListener {
         list.removeAll();
         for (Client cli : clientDB.getData()) {
             list.add(cli.getName());
+        }
+
+        history.removeAll();
+
+        Client c = selectedClient;
+        for (Transaction t : c.getHistory()) {
+            history.add(t.getPrice() + " - " + t.getProducts().size() + " Products");
         }
     }
 }
