@@ -157,6 +157,10 @@ public class Admin extends Panel implements DataBaseListener {
                     Integer.parseInt(quantity2.getText()),
                     "");
 
+            price2.setText("");
+            quantity2.setText("");
+            name2.setText("");
+
             productDB.add(prod);
         });
         add(newproduct);
@@ -165,8 +169,9 @@ public class Admin extends Panel implements DataBaseListener {
         begoneproduct.setBounds(100,450, 288,30);
         begoneproduct.setFont(font2);
         begoneproduct.addActionListener(e -> {
-            int index = stock.getSelectedIndex();
-            stock.remove(index);
+                    int index = stock.getSelectedIndex();
+                    productDB.remove(index);
+
                 });
 
         add(begoneproduct);

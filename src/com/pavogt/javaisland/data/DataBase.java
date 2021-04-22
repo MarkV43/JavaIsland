@@ -48,6 +48,21 @@ public abstract class DataBase<T extends Serializable> {
         }
     }
 
+    public void remove(int index){
+        data.remove(index);
+        for (DataBaseListener i : listeners) {
+            i.dataBaseChanged();
+        }
+    }
+
+    public void remove(T obj) {
+        data.remove(obj);
+
+        for (DataBaseListener i : listeners) {
+            i.dataBaseChanged();
+        }
+    }
+
     abstract T cast(Object obj);
 
     public ArrayList<T> getData() {
