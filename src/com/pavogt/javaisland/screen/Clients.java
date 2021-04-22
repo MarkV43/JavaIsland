@@ -84,38 +84,22 @@ public class Clients extends Panel implements DataBaseListener {
         add(namelabel);
 
         Label emaillabel = new Label("E-mail:");
-        emaillabel.setBounds(1015, 300, 120, 30);
+        emaillabel.setBounds(1015, 200, 120, 30);
         emaillabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(emaillabel);
 
         Label passwordlabel = new Label("Password:");
-        passwordlabel.setBounds(1015, 400, 120, 30);
+        passwordlabel.setBounds(1015, 300, 120, 30);
         passwordlabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(passwordlabel);
 
 
         Label balancelabel = new Label("Balance:");
-        balancelabel.setBounds(1015, 200, 140, 30);
+        balancelabel.setBounds(1015, 400, 140, 30);
         balancelabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(balancelabel);
-
-        name2 = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
-        name2.setBounds(925, 150, 250, 30);
-        name2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
-        add(name2);
-
-        email2 = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
-        email2.setBounds(925, 250, 250, 30);
-        email2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
-        add(email2);
-        
-        password2 = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
-        password2.setBounds(925, 450, 250,30);
-        password2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
-        add(password2);
-
         balance2 = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
-        balance2.setBounds(925, 350, 250, 30);
+        balance2.setBounds(925, 450, 250, 30);
         balance2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(balance2);
 
@@ -124,7 +108,7 @@ public class Clients extends Panel implements DataBaseListener {
         newclient.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         newclient.addActionListener(e -> {
             long uuid = 0;
-            for (Client clien : clients) {
+            for (Client clien : clientDB.getData()) {
                 if (clien.getUuid() > uuid) uuid = clien.getUuid();
             }
 
@@ -144,6 +128,20 @@ public class Clients extends Panel implements DataBaseListener {
             clientDB.add(clien);
         });
         add(newclient);
+
+        Button begoneclient = new Button("Remove client");
+        begoneclient.setBounds(486,410, 288,30);
+        begoneclient.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        begoneclient.addActionListener(e -> {
+            int index = list.getSelectedIndex();
+            clientDB.remove(index);
+            name.setText("");
+            email.setText("");
+            balance.setText("");
+
+        });
+
+        add(begoneclient);
 
         setLayout(null);
         setBounds(0, 90, 1280, 660);

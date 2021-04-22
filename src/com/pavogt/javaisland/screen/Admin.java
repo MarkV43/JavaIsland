@@ -198,6 +198,10 @@ public class Admin extends Panel implements DataBaseListener {
         begoneproduct.addActionListener(e -> {
                     int index = stock.getSelectedIndex();
                     productDB.remove(index);
+                    name.setText("");
+                    price.setText("");
+                    description.setText("");
+                    quantity.setText("");
 
                 });
 
