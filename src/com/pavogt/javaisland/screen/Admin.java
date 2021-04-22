@@ -31,7 +31,7 @@ public class Admin extends Panel implements DataBaseListener {
         products = this.productDB.getData();
 
         Button bAdd = new Button("+");
-        bAdd.setBounds(440, 200, 30, 30);
+        bAdd.setBounds(770, 120, 30, 30);
         bAdd.setBackground(Color.GREEN);
         bAdd.setForeground(Color.BLACK);
         Font font = new Font("Rockwell Nova", Font.PLAIN, 50);
@@ -46,7 +46,7 @@ public class Admin extends Panel implements DataBaseListener {
         add(bAdd);
 
         Button bRem = new Button("-");
-        bRem.setBounds(790, 200, 30, 30);
+        bRem.setBounds(810, 120, 30, 30);
         bRem.setBackground(Color.RED);
         bRem.setForeground(Color.BLACK);
         bRem.setFont(font);
@@ -60,7 +60,7 @@ public class Admin extends Panel implements DataBaseListener {
 
 
         TextArea search = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
-        search.setBounds(100, 50, 288, 30);
+        search.setBounds(20, 20, 340, 30);
         search.setFont(font2);
         add(search);
 
@@ -85,7 +85,7 @@ public class Admin extends Panel implements DataBaseListener {
             stock.add(p.getName());
         }
 
-        stock.setBounds(100, 100, 288, 300);
+        stock.setBounds(20, 60, 340, 580);
         add(stock);
 
         setBackground(Color.white);
@@ -105,62 +105,62 @@ public class Admin extends Panel implements DataBaseListener {
         add(stock);
 
         name = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
-        name.setBounds(620, 100, 160, 30);
+        name.setBounds(460, 20, 300, 30);
         name.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(name);
 
         price = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
-        price.setBounds(620, 150, 160, 30);
+        price.setBounds(460, 70, 300, 30);
         price.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(price);
 
         quantity = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
-        quantity.setBounds(620, 200, 160, 30);
+        quantity.setBounds(460, 120, 300, 30);
         quantity.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(quantity);
 
         description = new TextArea("",6,100, TextArea.SCROLLBARS_NONE);
-        description.setBounds(620, 250, 160,100);
+        description.setBounds(460, 170, 300,150);
         description.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(description);
 
         add = new Label("Add product:");
         add.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
-        add.setBounds(1000, 50, 150, 30);
+        add.setBounds(1015, 50, 150, 30);
         add(add);
 
-        Label namelabel = new Label("Product name:");
-        namelabel.setBounds(1015, 100, 120, 30);
+        Label namelabel = new Label("Name:");
+        namelabel.setBounds(1040, 100, 120, 30);
         namelabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(namelabel);
 
-        Label pricelabel = new Label("Product price:");
-        pricelabel.setBounds(1015, 300, 120, 30);
+        Label pricelabel = new Label("Price:");
+        pricelabel.setBounds(1040, 300, 120, 30);
         pricelabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(pricelabel);
 
-        Label quantitylabel = new Label("Product quantity:");
-        quantitylabel.setBounds(1015, 200, 140, 30);
+        Label quantitylabel = new Label("Quantity:");
+        quantitylabel.setBounds(1025, 200, 140, 30);
         quantitylabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(quantitylabel);
 
-        Label namelabel2 = new Label("Product name:");
-        namelabel2.setBounds(480, 100, 140, 30);
+        Label namelabel2 = new Label("Name:");
+        namelabel2.setBounds(380, 20, 140, 30);
         namelabel2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(namelabel2);
 
-        Label pricelabel2 = new Label("Product price: R$");
-        pricelabel2.setBounds(480, 150, 140, 30);
+        Label pricelabel2 = new Label("Price: R$");
+        pricelabel2.setBounds(380, 70, 140, 30);
         pricelabel2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(pricelabel2);
 
-        Label quantitylabel2 = new Label("Product quantity:");
-        quantitylabel2.setBounds(480, 200, 140, 30);
+        Label quantitylabel2 = new Label("Quantity:");
+        quantitylabel2.setBounds(380, 120, 140, 30);
         quantitylabel2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(quantitylabel2);
 
-        Label description2 = new Label("Description:");
-        description2.setBounds(480, 250, 140, 30);
+        Label description2 = new Label("Info:");
+        description2.setBounds(380, 170, 140, 30);
         description2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(description2);
 
@@ -191,7 +191,7 @@ public class Admin extends Panel implements DataBaseListener {
         add(newproduct);
 
         Button begoneproduct = new Button("Remove product");
-        begoneproduct.setBounds(486,410, 288,30);
+        begoneproduct.setBounds(460,410, 300,30);
         begoneproduct.setFont(font2);
         begoneproduct.addActionListener(e -> {
                     int index = stock.getSelectedIndex();
@@ -206,7 +206,7 @@ public class Admin extends Panel implements DataBaseListener {
         add(begoneproduct);
 
         Button saveproduct = new Button("Save product");
-        saveproduct.setBounds(486,370, 288,30);
+        saveproduct.setBounds(460,370, 300,30);
         saveproduct.setFont(font2);
         saveproduct.addActionListener(e -> {
             Product tempprod;
@@ -221,7 +221,7 @@ public class Admin extends Panel implements DataBaseListener {
 
         back = new BackgroundPanel();
         back.setBounds(0, 0, 1280, 720);
-        add(back);
+        //add(back);
 
         setLayout(null);
         setBounds(0, 90, 1280, 660);
