@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainWindow extends Frame {
 
@@ -28,6 +29,17 @@ public class MainWindow extends Frame {
 
         clientDB = new ClientDataBase("client.dat");
         productDB = new ProductDataBase("product.dat");
+
+        /*try {
+            clientDB.setData(new ArrayList<>());
+            clientDB.store();
+            productDB.setData(new ArrayList<>());
+            productDB.store();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return;*/
 
         try {
             clientDB.read();
@@ -82,9 +94,9 @@ public class MainWindow extends Frame {
         adminPanel = new Admin();
         storePanel = new Store();
 
-        clientsPanel.setVisible(false);
+        clientsPanel.setVisible(true);
         adminPanel.setVisible(false);
-        storePanel.setVisible(true);
+        storePanel.setVisible(false);
         add(clientsPanel);
         add(adminPanel);
         add(storePanel);

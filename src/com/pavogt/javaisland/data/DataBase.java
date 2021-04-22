@@ -21,12 +21,16 @@ public abstract class DataBase<T extends Serializable> {
     }
 
     public void read() throws IOException, ClassNotFoundException {
-        FileInputStream fileInputStream = new FileInputStream(filename);
-        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        try {
+            FileInputStream fileInputStream = new FileInputStream(filename);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
-        Object[] objs = (Object[]) objectInputStream.readObject();
-        data = cast(objs);
-        objectInputStream.close();
+            Object[] objs = (Object[]) objectInputStream.readObject();
+            data = cast(objs);
+            objectInputStream.close();
+        } catch (Exception e) {
+            data = new ArrayList<>();
+        }
     }
 
     abstract ArrayList<T> cast(Object[] array);

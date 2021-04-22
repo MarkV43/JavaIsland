@@ -8,11 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Clients extends Panel {
 
-    private Client[] clients;
+    private ArrayList<Client> clients;
     private List list;
     private Label name;
     private Label email;
@@ -34,7 +35,7 @@ public class Clients extends Panel {
         search.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(search);
 
-        clients = new Client[100];
+        /*clients = new Client[100];
         clients[0] = new Client(0, "Marcelo", "marcelo.vogt@grad.ufsc.br", 0, 99999, true);
         clients[1] = new Client(1, "Gaby", "gabycalzone@gmail.com", 0, 69420, true);
         clients[2] = new Client(2, "Luís Eduardo", "luis.e.parise@grad.ufsc.br", 0, 69, true);
@@ -42,12 +43,13 @@ public class Clients extends Panel {
         clients[4] = new Client(4, "Gabriel", "gabriel@gmail.com", 0, 10, false);
         clients[5] = new Client(5, "Marechal Luciolo", "luciolo@marechal.gov.br", 0, 1000000, false);
 
-        this.clientDB.getData().addAll(Arrays.asList(clients));
+        this.clientDB.getData().addAll(Arrays.asList(clients));*/
+
+        clients = this.clientDB.getData();
 
         list = new List(100, false);
-        for (int i = 0; i < 100; i++) {
-            if (clients[i] == null) break;
-            list.add(clients[i].getName());
+        for (Client client: clients) {
+            list.add(client.getName());
         }
         list.setBounds(20, 60, 340, 580);
         list.addMouseListener(new MouseAdapter() {
@@ -85,7 +87,7 @@ public class Clients extends Panel {
 
     void itemClicked() {
         int index = list.getSelectedIndex();
-        Client c = clients[index];
+        Client c = clients.get(index);
         name.setText(c.getName());
         email.setText(c.getEmail());
         balance.setText("R$ " + c.getBalance());
