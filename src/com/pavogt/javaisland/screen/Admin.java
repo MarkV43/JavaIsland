@@ -35,7 +35,7 @@ public class Admin extends Panel implements DataBaseListener {
         bAdd.setBackground(Color.GREEN);
         bAdd.setForeground(Color.BLACK);
         Font font = new Font("Rockwell Nova", Font.PLAIN, 50);
-        Font font2 = new Font("Rockwell Nova", Font.PLAIN, 25);
+        Font font2 = new Font("Rockwell Nova", Font.PLAIN, 18);
         bAdd.setFont(font);
         bAdd.addActionListener(e -> {
             int index = stock.getSelectedIndex();

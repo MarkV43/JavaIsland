@@ -147,7 +147,7 @@ public class Clients extends Panel implements DataBaseListener {
         add(newclient);
 
         Button begoneclient = new Button("Remove client");
-        begoneclient.setBounds(486,410, 288,30);
+        begoneclient.setBounds(460,220, 300,30);
         begoneclient.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         begoneclient.addActionListener(e -> {
             int index = list.getSelectedIndex();
@@ -159,7 +159,7 @@ public class Clients extends Panel implements DataBaseListener {
         });
 
         Button saveclient = new Button("Save client");
-        saveclient.setBounds(486,370, 288,30);
+        saveclient.setBounds(460,170, 300,30);
         saveclient.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         saveclient.addActionListener(e -> {
             Client tempprod;
