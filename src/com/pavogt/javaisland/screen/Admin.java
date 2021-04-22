@@ -32,7 +32,7 @@ public class Admin extends Panel implements DataBaseListener {
         System.out.println("products = " + products);
 
         Button bAdd = new Button("+");
-        bAdd.setBounds(50, 50, 30, 30);
+        bAdd.setBounds(440, 200, 30, 30);
         bAdd.setBackground(Color.GREEN);
         bAdd.setForeground(Color.BLACK);
         Font font = new Font("Rockwell Nova", Font.PLAIN, 50);
@@ -47,7 +47,7 @@ public class Admin extends Panel implements DataBaseListener {
         add(bAdd);
 
         Button bRem = new Button("-");
-        bRem.setBounds(400, 50, 30, 30);
+        bRem.setBounds(790, 200, 30, 30);
         bRem.setBackground(Color.RED);
         bRem.setForeground(Color.BLACK);
         bRem.setFont(font);
