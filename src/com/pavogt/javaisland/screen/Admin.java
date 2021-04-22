@@ -2,13 +2,16 @@ package com.pavogt.javaisland.screen;
 
 import com.pavogt.javaisland.component.BackgroundPanel;
 import com.pavogt.javaisland.data.Client;
+import com.pavogt.javaisland.data.ClientDataBase;
 import com.pavogt.javaisland.data.Product;
+import com.pavogt.javaisland.data.ProductDataBase;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 
 public class Admin extends Panel {
 
@@ -19,8 +22,11 @@ public class Admin extends Panel {
     private Label add;
     private Product[] products;
     BackgroundPanel back;
+    private ProductDataBase productDB;
 
-    public Admin(){
+    public Admin(ProductDataBase productDB){
+
+        this.productDB = productDB;
 
         products = new Product[100];
         products[0] = new Product(0, "RTX 3080Ti", 12034.58f, 3, "");
@@ -30,6 +36,8 @@ public class Admin extends Panel {
         products[4] = new Product(4, "RTX 3060", 5036.78f, 7, "");
         products[5] = new Product(5, "Monitor Curvo 1444p", 2230.47f, 6, "");
         products[6] = new Product(6, "Mouse Gamer 7200dpi", 320.54f, 18, "");
+
+        this.productDB.getData().addAll(Arrays.asList(products));
 
         Button bAdd = new Button("+");
         bAdd.setBounds(50, 50, 30, 30);

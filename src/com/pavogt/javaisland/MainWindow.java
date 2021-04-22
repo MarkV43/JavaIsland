@@ -91,8 +91,8 @@ public class MainWindow extends Frame {
         Panel initialPanel = new Initial();
 
         clientsPanel = new Clients(clientDB);
-        adminPanel = new Admin();
-        storePanel = new Store();
+        adminPanel = new Admin(productDB);
+        storePanel = new Store(productDB, clientDB);
 
         clientsPanel.setVisible(true);
         adminPanel.setVisible(false);
