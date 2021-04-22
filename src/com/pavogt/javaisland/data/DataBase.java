@@ -1,5 +1,7 @@
 package com.pavogt.javaisland.data;
 
+import com.pavogt.javaisland.screen.Admin;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,6 +10,7 @@ import java.util.stream.Collectors;
 public abstract class DataBase<T extends Serializable> {
     private ArrayList<T> data;
     private final String filename;
+    private ArrayList<DataBaseListener> listeners;
 
     public DataBase(String filename) {
         this.filename = filename;
@@ -36,6 +39,14 @@ public abstract class DataBase<T extends Serializable> {
         }
     }
 
+    public void add(T obj) {
+        data.add(obj);
+
+        for (DataBaseListener l : listeners) {
+            l.dataBaseChanged();
+        }
+    }
+
     abstract T cast(Object obj);
 
     public ArrayList<T> getData() {
@@ -44,5 +55,9 @@ public abstract class DataBase<T extends Serializable> {
 
     public void setData(ArrayList<T> data) {
         this.data = data;
+    }
+
+    public void addListener(DataBaseListener listener) {
+        listeners.add(listener);
     }
 }
