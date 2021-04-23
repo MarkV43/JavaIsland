@@ -20,7 +20,6 @@ public class Store extends Panel {
     private ClientDataBase clientDB;
     private ProductDataBase productDB;
 
-
     public Store(ClientDataBase clientDB, ProductDataBase productDB) {
 
         this.clientDB = clientDB;

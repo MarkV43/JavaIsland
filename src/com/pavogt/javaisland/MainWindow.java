@@ -21,14 +21,16 @@ public class MainWindow extends Frame {
     private Panel adminPanel;
     private Store storePanel;
 
-    private ClientDataBase clientDB;
-    private ProductDataBase productDB;
+    private final ClientDataBase clientDB;
+    private final ProductDataBase productDB;
 
     public MainWindow() {
         super();
 
         clientDB = new ClientDataBase("client.dat");
         productDB = new ProductDataBase("product.dat");
+
+        LoginManager lm = new LoginManager(clientDB);
 
         /*try {
             clientDB.setData(new ArrayList<>());
