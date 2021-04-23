@@ -1,5 +1,6 @@
 package com.pavogt.javaisland;
 
+import com.pavogt.javaisland.data.Client;
 import com.pavogt.javaisland.data.ClientDataBase;
 import com.pavogt.javaisland.data.ProductDataBase;
 import com.pavogt.javaisland.screen.*;

@@ -3,17 +3,16 @@ package com.pavogt.javaisland.screen;
 import com.pavogt.javaisland.CartManager;
 import com.pavogt.javaisland.LoginManager;
 import com.pavogt.javaisland.component.BackgroundPanel;
-import com.pavogt.javaisland.data.CartListener;
-import com.pavogt.javaisland.data.ClientDataBase;
-import com.pavogt.javaisland.data.Product;
-import com.pavogt.javaisland.data.ProductDataBase;
+import com.pavogt.javaisland.data.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.nio.charset.StandardCharsets;
 
-public class Cart extends Panel implements CartListener {
+public class Cart extends Panel implements CartListener, LoginListener {
     private final ClientDataBase clientDB;
     private final ProductDataBase productDB;
     private final LoginManager loginManager;
@@ -25,6 +24,11 @@ public class Cart extends Panel implements CartListener {
     Label productDescription;
     Label productAmount;
 
+    TextField username;
+    JPasswordField password;
+    Button login;
+    Label welcome;
+
     private Product selectedProduct;
 
     public Cart(ClientDataBase clientDB, ProductDataBase productDB, LoginManager loginManager, CartManager cartManager) {
@@ -34,6 +38,7 @@ public class Cart extends Panel implements CartListener {
         this.cartManager = cartManager;
 
         this.cartManager.addListener(this);
+        this.loginManager.addListener(this);
 
         makeScreen();
     }
@@ -61,6 +66,8 @@ public class Cart extends Panel implements CartListener {
                 productSelected(e);
             }
         });
+
+        add(productList);
 
         productName = new Label("Name");
         productName.setBounds(480, 100, 140, 30);
@@ -93,7 +100,29 @@ public class Cart extends Panel implements CartListener {
         add(amountLess);
         add(amountMore);
 
-        add(productList);
+
+        username = new TextField();
+        password = new JPasswordField();
+        login = new Button("Login");
+
+        username.setBounds(900, 20, 166, 30);
+        password.setBounds(1086, 20, 106, 30);
+        login.setBounds(1212, 20, 50, 30);
+
+        login.addActionListener(e -> {
+            loginManager.login(username.getText(), new String(password.getPassword()));
+        });
+
+        add(username);
+        add(password);
+        add(login);
+
+        welcome = new Label("Bem vindo, <insira o nome aqui>", Label.RIGHT);
+        welcome.setBounds(960, 20, 300, 30);
+
+        welcome.setVisible(false);
+        add(welcome);
+
         BackgroundPanel back = new BackgroundPanel();
         back.setBounds(0,0,1280,720);
         add(back);
@@ -128,5 +157,22 @@ public class Cart extends Panel implements CartListener {
         if (selectedProduct != null)
             productList.select(cartManager.indexOf(selectedProduct));
         productSelected(null);
+    }
+
+    @Override
+    public void loginChanged() {
+        System.out.println("HAHAHA");
+        if (loginManager.isLoggedIn()) {
+            username.setVisible(false);
+            password.setVisible(false);
+            login.setVisible(false);
+            welcome.setVisible(true);
+            welcome.setText("Bem vindo, " + loginManager.getLoggedUser().getName());
+        } else {
+            username.setVisible(true);
+            password.setVisible(true);
+            login.setVisible(true);
+            welcome.setVisible(false);
+        }
     }
 }

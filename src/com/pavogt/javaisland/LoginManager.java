@@ -2,23 +2,31 @@ package com.pavogt.javaisland;
 
 import com.pavogt.javaisland.data.Client;
 import com.pavogt.javaisland.data.ClientDataBase;
+import com.pavogt.javaisland.data.LoginListener;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.Base64;
 
 public class LoginManager {
     private final ClientDataBase db;
-    private Client loggedUser;
+    private Client loggedUser = null;
     private MessageDigest digest;
+    private final ArrayList<LoginListener> listeners;
 
     public LoginManager(ClientDataBase db) {
         this.db = db;
+        listeners = new ArrayList<>(10);
         try {
             digest = MessageDigest.getInstance("SHA-256");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void addListener(LoginListener l) {
+        listeners.add(l);
     }
 
     private byte[] hash(String str) {
@@ -52,7 +60,7 @@ public class LoginManager {
         Client user = null;
         for (int i = 0; i < db.getData().size(); i++) {
             user = db.getData().get(i);
-            if (user.getName().equals(username)) break;
+            if (user.getEmail().equals(username)) break;
         }
         return user;
     }
@@ -62,6 +70,9 @@ public class LoginManager {
         Client user = getUser(username);
         if (user.getPassword() == hash) {
             loggedUser = user;
+            for (LoginListener l : listeners) {
+                l.loginChanged();
+            }
         }
     }
 
@@ -71,5 +82,16 @@ public class LoginManager {
         Client user = new Client(uuid, username, email, hash, balance, false);
         db.add(user);
         loggedUser = user;
+        for (LoginListener l : listeners) {
+            l.loginChanged();
+        }
+    }
+
+    public boolean isLoggedIn() {
+        return loggedUser != null;
+    }
+
+    public Client getLoggedUser() {
+        return loggedUser;
     }
 }
