@@ -2,11 +2,9 @@ package com.pavogt.javaisland;
 
 import com.pavogt.javaisland.data.Client;
 import com.pavogt.javaisland.data.ClientDataBase;
-import jdk.jshell.spi.ExecutionControl;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 public class LoginManager {
@@ -18,11 +16,6 @@ public class LoginManager {
         this.db = db;
         try {
             digest = MessageDigest.getInstance("SHA-256");
-            System.out.println(generateSalt("teste"));
-            System.out.println(generateSalt("testf"));
-            System.out.println(generateSalt("testg"));
-            System.out.println(generateSalt("testh"));
-            System.out.println(generateSalt("testi"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,5 +63,13 @@ public class LoginManager {
         if (user.getPassword() == hash) {
             loggedUser = user;
         }
+    }
+
+    public void register(String username, String password, String email, float balance) {
+        long hash = hashPassword(username, password);
+        long uuid = db.getNextUuid();
+        Client user = new Client(uuid, username, email, hash, balance, false);
+        db.add(user);
+        loggedUser = user;
     }
 }

@@ -1,8 +1,6 @@
 package com.pavogt.javaisland.data;
 
-import java.io.Serializable;
-
-public class Product implements Serializable {
+public class Product implements DataBaseItem {
 
     public static final long serialVersionUID = 2L;
 

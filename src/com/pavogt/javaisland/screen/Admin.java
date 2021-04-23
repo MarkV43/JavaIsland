@@ -30,8 +30,6 @@ public class Admin extends Panel implements DataBaseListener {
 
         products = this.productDB.getData();
 
-        System.out.println("products = " + products);
-
         Button bAdd = new Button("+");
         bAdd.setBounds(440, 200, 30, 30);
         bAdd.setBackground(Color.GREEN);

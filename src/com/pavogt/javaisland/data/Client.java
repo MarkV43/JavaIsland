@@ -3,7 +3,7 @@ package com.pavogt.javaisland.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Client implements Serializable {
+public class Client implements DataBaseItem {
 
     public static final long serialVersionUID = 3L;
 

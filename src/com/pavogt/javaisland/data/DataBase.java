@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public abstract class DataBase<T extends Serializable> {
+public abstract class DataBase<T extends DataBaseItem> {
     private ArrayList<T> data;
     private final String filename;
     private final ArrayList<DataBaseListener> listeners;
@@ -82,5 +82,14 @@ public abstract class DataBase<T extends Serializable> {
 
     public void addListener(DataBaseListener listener) {
         listeners.add(listener);
+    }
+
+    public long getNextUuid() {
+        long uuid = -1;
+        for (T t: data) {
+            if (t.getUuid() > uuid)
+                uuid = t.getUuid();
+        }
+        return uuid + 1;
     }
 }
