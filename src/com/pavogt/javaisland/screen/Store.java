@@ -23,7 +23,10 @@ public class Store extends Panel {
     Label productName;
     Label productPrice;
     Label productQuantity;
-    Label productDescription;
+    TextArea productDescription;
+
+    Font font1 = new Font("Rockwell Nova", Font.PLAIN, 25);
+    Font font2 = new Font("Rockwell Nova", Font.PLAIN, 18);
 
     private final ClientDataBase clientDB;
     private final ProductDataBase productDB;
@@ -50,7 +53,7 @@ public class Store extends Panel {
             productList.add(product.getName() + " - R$ " + product.getPrice());
         }
 
-        productList.setBounds(100, 50, 300, 500);
+        productList.setBounds(20, 60, 340, 580);
 
         productList.addActionListener(this::productSelected);
         productList.addMouseListener(new MouseAdapter() {
@@ -66,21 +69,32 @@ public class Store extends Panel {
         });
 
         productName = new Label("Name");
-        productName.setBounds(480, 100, 140, 30);
+        productName.setBounds(480, 60, 300, 30);
+        productName.setFont(font2);
         productPrice = new Label("Price");
-        productPrice.setBounds(480, 150, 140, 30);
+        productPrice.setBounds(480, 110, 300, 30);
+        productPrice.setFont(font2);
         productQuantity = new Label("Qtd");
-        productQuantity.setBounds(480, 200, 140, 30);
-        productDescription = new Label("Desc");
-        productDescription.setBounds(480, 250, 140, 100);
+        productQuantity.setBounds(480, 160, 300, 30);
+        productQuantity.setFont(font2);
+        productDescription = new TextArea("",6,100, TextArea.SCROLLBARS_NONE);
+        productDescription.setBounds(480, 210, 300, 200);
+        productDescription.setFont(font2);
+
+        Label productslist = new Label("PRODUCTS:");
+        productslist.setFont(font1);
+        productslist.setBounds(110,20,200,30);
+
 
         add(productName);
         add(productPrice);
         add(productQuantity);
         add(productDescription);
+        add(productslist);
 
         Button addToCart = new Button("Add to Cart");
-        addToCart.setBounds(480, 370, 140, 30);
+        addToCart.setFont(font2);
+        addToCart.setBounds(560, 460, 140, 30);
         addToCart.addActionListener(e -> {
             int index = productList.getSelectedIndex();
             if (index != -1) {
@@ -92,7 +106,7 @@ public class Store extends Panel {
         add(productList);
         back = new BackgroundPanel();
         back.setBounds(0,0,1280,720);
-        add(back);
+        setBackground(Color.LIGHT_GRAY);
 
 
         setLayout(null);

@@ -16,6 +16,10 @@ public class CartManager {
         listeners = new ArrayList<>();
     }
 
+    public int getSize(){
+        return productList.size();
+    }
+
     public void addListener(CartListener listener) {
         listeners.add(listener);
     }
