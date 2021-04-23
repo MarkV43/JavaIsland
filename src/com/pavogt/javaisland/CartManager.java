@@ -39,11 +39,19 @@ public class CartManager {
         }
     }
 
+    public void addAmount(Product product, int change) {
+        changeAmount(product, change + getAmount(product));
+    }
+
     public void removeProduct(Product product) {
         productList.remove(product.getUuid());
         for (CartListener l : listeners) {
             l.cartChanged();
         }
+    }
+
+    public long get(int index) {
+        return productList.get(index);
     }
 
     public int getAmount(Product product) {
@@ -52,7 +60,27 @@ public class CartManager {
         } else return -1;
     }
 
+    public int getAmount(int index) {
+        return amountList.get(index);
+    }
+
+    public int getAmount(long uuid) {
+        return amountList.get(productList.indexOf(uuid));
+    }
+
     public boolean contains(Product product) {
         return productList.contains(product.getUuid());
+    }
+
+    public int indexOf(Product product) {
+        return productList.indexOf(product.getUuid());
+    }
+
+    public ArrayList<Long> getProductList() {
+        return productList;
+    }
+
+    public ArrayList<Integer> getAmountList() {
+        return amountList;
     }
 }

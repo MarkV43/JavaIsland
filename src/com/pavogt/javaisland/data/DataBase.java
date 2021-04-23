@@ -92,4 +92,12 @@ public abstract class DataBase<T extends DataBaseItem> {
         }
         return uuid + 1;
     }
+
+    public T getFromUuid(long uuid) {
+        for (T t: data) {
+            if (t.getUuid() == uuid)
+                return t;
+        }
+        return null;
+    }
 }

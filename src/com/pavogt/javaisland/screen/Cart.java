@@ -25,6 +25,8 @@ public class Cart extends Panel implements CartListener {
     Label productDescription;
     Label productAmount;
 
+    private Product selectedProduct;
+
     public Cart(ClientDataBase clientDB, ProductDataBase productDB, LoginManager loginManager, CartManager cartManager) {
         this.clientDB = clientDB;
         this.productDB = productDB;
@@ -39,9 +41,10 @@ public class Cart extends Panel implements CartListener {
     private void makeScreen() {
         productList = new List(100, false);
 
-        for (Product product : productDB.getData()) {
-            if (cartManager.contains(product))
-                productList.add(product.getName() + " - R$ " + product.getPrice());
+        for (long uuid : cartManager.getProductList()) {
+            Product product = productDB.getFromUuid(uuid);
+
+            productList.add(product.getName() + " - R$ " + product.getPrice() + " - " + cartManager.getAmount(uuid));
         }
 
         productList.setBounds(100, 50, 300, 500);
@@ -64,16 +67,24 @@ public class Cart extends Panel implements CartListener {
         productPrice = new Label("Price");
         productPrice.setBounds(480, 150, 140, 30);
         productDescription = new Label("Desc");
-        productDescription.setBounds(480, 250, 140, 100);
-        productAmount = new Label("Quantidade");
-        productAmount.setBounds(510, 370, 80,30);
+        productDescription.setBounds(480, 200, 140, 100);
+        productAmount = new Label("Qtd");
+        productAmount.setBounds(510, 320, 80,30);
         Button amountLess = new Button("-");
         Button amountMore = new Button("+");
+        amountLess.setBounds(480, 320, 30, 30);
+        amountMore.setBounds(590, 320, 30, 30);
+
+        amountLess.addActionListener(e -> cartManager.addAmount(selectedProduct, -1));
+
+        amountMore.addActionListener(e -> cartManager.addAmount(selectedProduct, 1));
 
         add(productName);
         add(productPrice);
         add(productDescription);
         add(productAmount);
+        add(amountLess);
+        add(amountMore);
 
         add(productList);
         BackgroundPanel back = new BackgroundPanel();
@@ -88,11 +99,12 @@ public class Cart extends Panel implements CartListener {
     private void productSelected(AWTEvent e) {
         int index = productList.getSelectedIndex();
         if (index != -1) {
-            Product c = productDB.getData().get(index);
+            Product c = productDB.getFromUuid(cartManager.get(index));
+            selectedProduct = c;
             productName.setText(c.getName());
             productPrice.setText("R$ " + c.getPrice());
             productDescription.setText(c.getDescription());
-            productAmount.setText("Qtd.: " + cartManager.getAmount(c));
+            productAmount.setText("Qtd: " + cartManager.getAmount(index));
         }
     }
 
@@ -100,9 +112,14 @@ public class Cart extends Panel implements CartListener {
     public void cartChanged() {
         productList.removeAll();
 
-        for (Product product : productDB.getData()) {
-            if (cartManager.contains(product))
-                productList.add(product.getName() + " - " + cartManager.getAmount(product));
+        for (long uuid : cartManager.getProductList()) {
+            Product product = productDB.getFromUuid(uuid);
+
+            productList.add(product.getName() + " - R$ " + product.getPrice() + " - " + cartManager.getAmount(uuid));
         }
+
+        if (selectedProduct != null)
+            productList.select(cartManager.indexOf(selectedProduct));
+        productSelected(null);
     }
 }
