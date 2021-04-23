@@ -32,7 +32,7 @@ public class Admin extends Panel implements DataBaseListener {
         System.out.println("products = " + products);
 
         Button bAdd = new Button("+");
-        bAdd.setBounds(50, 50, 30, 30);
+        bAdd.setBounds(440, 200, 30, 30);
         bAdd.setBackground(Color.GREEN);
         bAdd.setForeground(Color.BLACK);
         Font font = new Font("Rockwell Nova", Font.PLAIN, 50);
@@ -47,7 +47,7 @@ public class Admin extends Panel implements DataBaseListener {
         add(bAdd);
 
         Button bRem = new Button("-");
-        bRem.setBounds(400, 50, 30, 30);
+        bRem.setBounds(790, 200, 30, 30);
         bRem.setBackground(Color.RED);
         bRem.setForeground(Color.BLACK);
         bRem.setFont(font);
@@ -144,15 +144,34 @@ public class Admin extends Panel implements DataBaseListener {
         Button newproduct = new Button("Add product");
         newproduct.setBounds(925, 400, 288, 30);
         newproduct.setFont(font2);
-        newproduct.addActionListener(this::addNewProduct);
+        newproduct.addActionListener(e -> {
+            long uuid = 0;
+            for (Product prod : products) {
+                if (prod.getUuid() > uuid) uuid = prod.getUuid();
+            }
+
+            Product prod = new Product(
+                    uuid + 1,
+                    name2.getText(),
+                    Float.parseFloat(price2.getText()),
+                    Integer.parseInt(quantity2.getText()),
+                    "");
+
+            price2.setText("");
+            quantity2.setText("");
+            name2.setText("");
+
+            productDB.add(prod);
+        });
         add(newproduct);
 
         Button begoneproduct = new Button("Remover produto");
         begoneproduct.setBounds(100,450, 288,30);
         begoneproduct.setFont(font2);
         begoneproduct.addActionListener(e -> {
-            int index = stock.getSelectedIndex();
-            stock.remove(index);
+                    int index = stock.getSelectedIndex();
+                    productDB.remove(index);
+
                 });
 
         add(begoneproduct);
@@ -167,22 +186,6 @@ public class Admin extends Panel implements DataBaseListener {
         setBounds(0, 90, 1280, 660);
 
 
-    }
-
-    void addNewProduct(ActionEvent e) {
-        long uuid = 0;
-        for (Product prod : products) {
-            if (prod.getUuid() > uuid) uuid = prod.getUuid();
-        }
-
-        Product prod = new Product(
-                uuid + 1,
-                name2.getText(),
-                Float.parseFloat(price2.getText()),
-                Integer.parseInt(quantity2.getText()),
-                "");
-
-        productDB.add(prod);
     }
 
     void itemClicked() {
