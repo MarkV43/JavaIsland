@@ -75,9 +75,16 @@ public class Cart extends Panel implements CartListener {
         amountLess.setBounds(480, 320, 30, 30);
         amountMore.setBounds(590, 320, 30, 30);
 
-        amountLess.addActionListener(e -> cartManager.addAmount(selectedProduct, -1));
+        amountLess.addActionListener(e -> {
+            int amount = Math.max(cartManager.getAmount(selectedProduct) - 1, 1);
+            cartManager.changeAmount(selectedProduct, amount);
+        });
 
-        amountMore.addActionListener(e -> cartManager.addAmount(selectedProduct, 1));
+        amountMore.addActionListener(e -> {
+            int max = selectedProduct.getQuantity();
+            int amount = Math.min(cartManager.getAmount(selectedProduct) + 1, max);
+            cartManager.changeAmount(selectedProduct, amount);
+        });
 
         add(productName);
         add(productPrice);
