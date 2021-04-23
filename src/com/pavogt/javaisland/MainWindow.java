@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainWindow extends Frame implements CartListener {
 
@@ -46,8 +47,6 @@ public class MainWindow extends Frame implements CartListener {
 
         Client c2 = clientDB.getFromUuid(2);
         c2.setPassword(loginManager.hashPassword(c2.getEmail(), "123456"));
-
-        System.out.println(c);
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {

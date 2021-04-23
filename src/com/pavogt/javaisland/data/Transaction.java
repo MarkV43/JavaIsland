@@ -14,8 +14,10 @@ public class Transaction implements Serializable {
 
     public Transaction(float price, ArrayList<Long> products, ArrayList<Integer> amounts) {
         this.price = price;
-        this.products = products;
-        this.amounts = amounts;
+        this.products = new ArrayList<>();
+        this.amounts = new ArrayList<>();
+        this.products.addAll(products);
+        this.amounts.addAll(amounts);
     }
 
     public float getPrice() {

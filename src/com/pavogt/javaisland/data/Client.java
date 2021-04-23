@@ -13,7 +13,7 @@ public class Client implements DataBaseItem {
     private long password;
     private float balance;
     private boolean admin;
-    final private ArrayList<Transaction> history;
+    private ArrayList<Transaction> history;
 
     public Client(long uuid, String name, String email, long password, float balance, boolean admin, ArrayList<Transaction> history) {
         this.uuid = uuid;
@@ -75,6 +75,10 @@ public class Client implements DataBaseItem {
 
     public ArrayList<Transaction> getHistory() {
         return history;
+    }
+
+    public void setHistory(ArrayList<Transaction> history) {
+        this.history = history;
     }
 
     public void addToHistory(Transaction t) {

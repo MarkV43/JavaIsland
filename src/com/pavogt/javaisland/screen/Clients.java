@@ -27,7 +27,6 @@ public class Clients extends Panel implements DataBaseListener {
     private Label lemail;
     private List history;
     private final ClientDataBase clientDB;
-    private ArrayList<Transaction> history2;
 
     private Client selectedClient = null;
 
@@ -151,7 +150,7 @@ public class Clients extends Panel implements DataBaseListener {
                     email2.getText(),
                     Long.parseLong(password2.getText()),
                     parseFloat(balance2.getText()),
-                    false, history2);
+                    false, new ArrayList<>());
 
             name2.setText("");
             email2.setText("");
@@ -171,7 +170,6 @@ public class Clients extends Panel implements DataBaseListener {
             name.setText("");
             email.setText("");
             balance.setText("");
-
         });
 
         Button saveclient = new Button("Save client");
