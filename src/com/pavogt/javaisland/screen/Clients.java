@@ -1,8 +1,6 @@
 package com.pavogt.javaisland.screen;
 
-import com.pavogt.javaisland.data.Client;
-import com.pavogt.javaisland.data.ClientDataBase;
-import com.pavogt.javaisland.data.DataBaseListener;
+import com.pavogt.javaisland.data.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,8 +16,14 @@ public class Clients extends Panel implements DataBaseListener {
     private Label name;
     private Label email;
     private Label balance;
+    private TextArea email2;
+    private TextArea balance2;
+    private TextArea name2;
+    private TextArea password2;
     private List history;
     private final ClientDataBase clientDB;
+    private ArrayList<Client> clients;
+    private ArrayList<Transaction> history2;
 
     public Clients(ClientDataBase clientDB) {
         this.clientDB = clientDB;
@@ -74,8 +78,77 @@ public class Clients extends Panel implements DataBaseListener {
         balance.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(balance);
 
+        Label namelabel = new Label("Name:");
+        namelabel.setBounds(1015, 100, 120, 30);
+        namelabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(namelabel);
+
+        Label emaillabel = new Label("E-mail:");
+        emaillabel.setBounds(1015, 300, 120, 30);
+        emaillabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(emaillabel);
+
+        Label passwordlabel = new Label("Password:");
+        passwordlabel.setBounds(1015, 400, 120, 30);
+        passwordlabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(passwordlabel);
+
+
+        Label balancelabel = new Label("Balance:");
+        balancelabel.setBounds(1015, 200, 140, 30);
+        balancelabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(balancelabel);
+
+        name2 = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
+        name2.setBounds(925, 150, 250, 30);
+        name2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(name2);
+
+        email2 = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
+        email2.setBounds(925, 250, 250, 30);
+        email2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(email2);
+        
+        password2 = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
+        password2.setBounds(925, 450, 250,30);
+        password2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(password2);
+
+        balance2 = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
+        balance2.setBounds(925, 350, 250, 30);
+        balance2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(balance2);
+
+        Button newclient = new Button("Add client");
+        newclient.setBounds(925, 500, 288, 30);
+        newclient.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        newclient.addActionListener(e -> {
+            long uuid = 0;
+            for (Client clien : clients) {
+                if (clien.getUuid() > uuid) uuid = clien.getUuid();
+            }
+
+            Client clien = new Client(
+                    uuid + 1,
+                    name2.getText(),
+                    email2.getText(),
+                    Long.parseLong(password2.getText()),
+                    Float.parseFloat(balance2.getText()),
+                    false, history2);
+
+            name2.setText("");
+            email2.setText("");
+            balance2.setText("");
+            password2.setText("");
+
+            clientDB.add(clien);
+        });
+        add(newclient);
+
         setLayout(null);
         setBounds(0, 90, 1280, 660);
+        
+        
     }
 
     void itemClicked() {

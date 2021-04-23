@@ -48,6 +48,13 @@ public abstract class DataBase<T extends Serializable> {
         }
     }
 
+    public void mod(int index, T obj) {
+        data.set(index, obj);
+        for (DataBaseListener i : listeners) {
+            i.dataBaseChanged();
+        }
+    }
+
     public void remove(int index){
         data.remove(index);
         for (DataBaseListener i : listeners) {
