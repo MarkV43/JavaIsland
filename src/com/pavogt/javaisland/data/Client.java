@@ -92,6 +92,19 @@ public class Client implements DataBaseItem {
                 ", email='" + email + '\'' +
                 ", password=" + password +
                 ", balance=" + balance +
+                ", history=" + listToString(history) +
                 '}';
+    }
+
+    private static String listToString(ArrayList<Transaction> list) {
+        StringBuilder sb = new StringBuilder("[");
+        boolean first = true;
+        for (Transaction t : list) {
+            if (!first) sb.append(", ");
+            else first = false;
+            sb.append(t.toString());
+        }
+        sb.append(']');
+        return sb.toString();
     }
 }

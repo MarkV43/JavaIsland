@@ -2,6 +2,7 @@ package com.pavogt.javaisland;
 
 import com.pavogt.javaisland.data.Client;
 import com.pavogt.javaisland.data.ClientDataBase;
+import com.pavogt.javaisland.data.DataBaseListener;
 import com.pavogt.javaisland.data.LoginListener;
 
 import java.nio.charset.StandardCharsets;
@@ -9,7 +10,7 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Base64;
 
-public class LoginManager {
+public class LoginManager implements DataBaseListener {
     private final ClientDataBase db;
     private Client loggedUser = null;
     private MessageDigest digest;
@@ -18,6 +19,7 @@ public class LoginManager {
     public LoginManager(ClientDataBase db) {
         this.db = db;
         listeners = new ArrayList<>(10);
+        this.db.addListener(this);
         try {
             digest = MessageDigest.getInstance("SHA-256");
         } catch (Exception e) {
@@ -93,5 +95,12 @@ public class LoginManager {
 
     public Client getLoggedUser() {
         return loggedUser;
+    }
+
+    @Override
+    public void dataBaseChanged() {
+        for (LoginListener l : listeners) {
+            l.loginChanged();
+        }
     }
 }

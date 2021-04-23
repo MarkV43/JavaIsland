@@ -87,4 +87,12 @@ public class CartManager {
     public ArrayList<Integer> getAmountList() {
         return amountList;
     }
+
+    public void removeAll() {
+        productList.clear();
+        amountList.clear();
+        for (CartListener l : listeners) {
+            l.cartChanged();
+        }
+    }
 }

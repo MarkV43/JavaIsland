@@ -58,7 +58,6 @@ public class Admin extends Panel implements DataBaseListener {
         });
         add(bRem);
 
-
         TextArea search = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
         search.setBounds(20, 20, 340, 30);
         search.setFont(font2);
