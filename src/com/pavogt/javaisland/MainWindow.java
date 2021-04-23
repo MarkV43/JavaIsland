@@ -41,6 +41,12 @@ public class MainWindow extends Frame implements CartListener {
             e.printStackTrace();
         }
 
+        Client c = clientDB.getFromUuid(0);
+        c.setPassword(loginManager.hashPassword(c.getEmail(), "abc123"));
+
+        Client c2 = clientDB.getFromUuid(2);
+        c2.setPassword(loginManager.hashPassword(c2.getEmail(), "123456"));
+
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 try {

@@ -99,17 +99,28 @@ public class Clients extends Panel implements DataBaseListener {
         namelabel.setBounds(1015, 100, 120, 30);
         namelabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(namelabel);
+        name2 = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
+        name2.setBounds(925, 150, 250, 30);
+        name2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(name2);
 
         Label emaillabel = new Label("E-mail:");
         emaillabel.setBounds(1015, 200, 120, 30);
         emaillabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(emaillabel);
+        email2 = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
+        email2.setBounds(925, 250, 250, 30);
+        email2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(email2);
 
         Label passwordlabel = new Label("Password:");
         passwordlabel.setBounds(1015, 300, 120, 30);
         passwordlabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(passwordlabel);
-
+        password2 = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
+        password2.setBounds(925, 350, 250,30);
+        password2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(password2);
 
         Label balancelabel = new Label("Balance:");
         balancelabel.setBounds(1015, 400, 140, 30);
@@ -181,8 +192,8 @@ public class Clients extends Panel implements DataBaseListener {
 
         setLayout(null);
         setBounds(0, 90, 1280, 660);
-        
-        
+
+
     }
 
     void itemClicked() {
