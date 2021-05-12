@@ -177,7 +177,7 @@ public class Admin extends Panel implements DataBaseListener {
             Product prod = new Product(
                     uuid + 1,
                     name2.getText(),
-                    Float.parseFloat(price2.getText()),
+                    Integer.parseInt(price2.getText()),
                     Integer.parseInt(quantity2.getText()),
                     "");
 
@@ -210,7 +210,7 @@ public class Admin extends Panel implements DataBaseListener {
         saveproduct.addActionListener(e -> {
             Product tempprod;
             int index = stock.getSelectedIndex();
-            tempprod = new Product(index,name.getText(), Float.parseFloat(price.getText()), Integer.parseInt(quantity.getText()), description.getText());
+            tempprod = new Product(index,name.getText(), Integer.parseInt(price.getText()), Integer.parseInt(quantity.getText()), description.getText());
             productDB.mod(index, tempprod);
         });
 

@@ -149,7 +149,7 @@ public class Clients extends Panel implements DataBaseListener {
                     name2.getText(),
                     email2.getText(),
                     Long.parseLong(password2.getText()),
-                    parseFloat(balance2.getText()),
+                    Integer.parseInt(balance2.getText()),
                     false, new ArrayList<>());
 
             name2.setText("");
@@ -183,7 +183,7 @@ public class Clients extends Panel implements DataBaseListener {
                     name.getText(),
                     email.getText(),
                     c.getPassword(),
-                    Float.parseFloat(balance.getText()),
+                    Integer.parseInt(balance.getText()),
                     false,
                     c.getHistory());
             clientDB.mod(index, tempprod);
