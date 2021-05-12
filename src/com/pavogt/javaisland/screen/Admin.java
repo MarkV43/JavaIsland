@@ -118,8 +118,8 @@ public class Admin extends Panel implements DataBaseListener {
         quantity.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(quantity);
 
-        description = new TextArea("",6,100, TextArea.SCROLLBARS_NONE);
-        description.setBounds(460, 170, 300,150);
+        description = new TextArea("", 6, 100, TextArea.SCROLLBARS_NONE);
+        description.setBounds(460, 170, 300, 150);
         description.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(description);
 
@@ -164,7 +164,6 @@ public class Admin extends Panel implements DataBaseListener {
         add(description2);
 
 
-
         Button newproduct = new Button("Add product");
         newproduct.setBounds(925, 400, 288, 30);
         newproduct.setFont(font2);
@@ -175,6 +174,7 @@ public class Admin extends Panel implements DataBaseListener {
             }
 
             Product prod = new Product(
+                    productDB,
                     uuid + 1,
                     name2.getText(),
                     Float.parseFloat(price2.getText()),
@@ -190,32 +190,31 @@ public class Admin extends Panel implements DataBaseListener {
         add(newproduct);
 
         Button begoneproduct = new Button("Remove product");
-        begoneproduct.setBounds(460,410, 300,30);
+        begoneproduct.setBounds(460, 410, 300, 30);
         begoneproduct.setFont(font2);
         begoneproduct.addActionListener(e -> {
-                    int index = stock.getSelectedIndex();
-                    productDB.remove(index);
-                    name.setText("");
-                    price.setText("");
-                    description.setText("");
-                    quantity.setText("");
+            int index = stock.getSelectedIndex();
+            productDB.remove(index);
+            name.setText("");
+            price.setText("");
+            description.setText("");
+            quantity.setText("");
 
-                });
+        });
 
         add(begoneproduct);
 
         Button saveproduct = new Button("Save product");
-        saveproduct.setBounds(460,370, 300,30);
+        saveproduct.setBounds(460, 370, 300, 30);
         saveproduct.setFont(font2);
         saveproduct.addActionListener(e -> {
             Product tempprod;
             int index = stock.getSelectedIndex();
-            tempprod = new Product(index,name.getText(), Float.parseFloat(price.getText()), Integer.parseInt(quantity.getText()), description.getText());
+            tempprod = new Product(productDB, index, name.getText(), Float.parseFloat(price.getText()), Integer.parseInt(quantity.getText()), description.getText());
             productDB.mod(index, tempprod);
         });
 
         add(saveproduct);
-
 
 
         back = new BackgroundPanel();

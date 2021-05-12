@@ -189,14 +189,28 @@ public class Cart extends Panel implements CartListener, LoginListener {
 
     void finishPurchase() {
         Client c = loginManager.getLoggedUser();
-        if (c.getBalance() >= priceTot) {
-            c.setBalance(c.getBalance() - priceTot);
+        if (c.getBalance() >= priceTot && priceTot > 0 && cartManager.getProductList().size() > 0) {
+            boolean enabled = true;
+            for (Long prodId : cartManager.getProductList()) {
+                Product prod = productDB.getFromUuid(prodId);
+                if (cartManager.getAmount(prodId) > prod.getQuantity()) {
+                    enabled = false;
+                }
+            }
 
-            Transaction trans = new Transaction(priceTot, cartManager.getProductList(), cartManager.getAmountList());
+            if (enabled) {
+                c.setBalance(c.getBalance() - priceTot);
 
-            c.addToHistory(trans);
+                Transaction trans = new Transaction(priceTot, cartManager.getProductList(), cartManager.getAmountList());
 
-            cartManager.removeAll();
+                c.addToHistory(trans);
+
+                cartManager.removeAll();
+
+                selectedProduct = null;
+
+                productSelected(null);
+            }
         }
     }
 
@@ -222,6 +236,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
 
     @Override
     public void loginChanged() {
+        System.out.println(loginManager.isLoggedIn());
         if (loginManager.isLoggedIn()) {
             username.setVisible(false);
             password.setVisible(false);

@@ -145,6 +145,7 @@ public class Clients extends Panel implements DataBaseListener {
             }
 
             Client clien = new Client(
+                    clientDB,
                     uuid + 1,
                     name2.getText(),
                     email2.getText(),
@@ -179,7 +180,9 @@ public class Clients extends Panel implements DataBaseListener {
             Client tempprod;
             int index = list.getSelectedIndex();
             Client c = clientDB.getData().get(index);
-            tempprod = new Client( c.getUuid(),
+            tempprod = new Client(
+                    clientDB,
+                    c.getUuid(),
                     name.getText(),
                     email.getText(),
                     c.getPassword(),
@@ -207,6 +210,7 @@ public class Clients extends Panel implements DataBaseListener {
         email.setText(c.getEmail());
         balance.setText(Float.toString(c.getBalance()));
 
+        history.removeAll();
         for (Transaction t : c.getHistory()) {
             history.add(t.getPrice() + " - " + t.getProducts().size() + " Products");
         }
@@ -220,10 +224,10 @@ public class Clients extends Panel implements DataBaseListener {
         }
 
         history.removeAll();
-
-        Client c = selectedClient;
-        for (Transaction t : c.getHistory()) {
-            history.add(t.getPrice() + " - " + t.getProducts().size() + " Products");
+        if (selectedClient != null) {
+            for (Transaction t : selectedClient.getHistory()) {
+                history.add(t.getPrice() + " - " + t.getProducts().size() + " Products");
+            }
         }
     }
 }

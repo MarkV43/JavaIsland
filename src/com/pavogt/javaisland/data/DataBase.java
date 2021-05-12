@@ -32,7 +32,9 @@ public abstract class DataBase<T extends DataBaseItem> {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
             ArrayList<Object> objs = new ArrayList<>((Collection<?>) objectInputStream.readObject());
-            data = objs.stream().map(this::cast).collect(Collectors.toCollection(ArrayList::new));;
+            data = objs.stream().map(this::cast).peek(t -> {
+                t.setDatabase(this);
+            }).collect(Collectors.toCollection(ArrayList::new));;
             objectInputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -42,32 +44,22 @@ public abstract class DataBase<T extends DataBaseItem> {
 
     public void add(T obj) {
         data.add(obj);
-
-        for (DataBaseListener l : listeners) {
-            l.dataBaseChanged();
-        }
+        notifyChanges();
     }
 
     public void mod(int index, T obj) {
         data.set(index, obj);
-        for (DataBaseListener i : listeners) {
-            i.dataBaseChanged();
-        }
+        notifyChanges();
     }
 
     public void remove(int index){
         data.remove(index);
-        for (DataBaseListener i : listeners) {
-            i.dataBaseChanged();
-        }
+        notifyChanges();
     }
 
     public void remove(T obj) {
         data.remove(obj);
-
-        for (DataBaseListener i : listeners) {
-            i.dataBaseChanged();
-        }
+        notifyChanges();
     }
 
     abstract T cast(Object obj);
@@ -99,5 +91,11 @@ public abstract class DataBase<T extends DataBaseItem> {
                 return t;
         }
         return null;
+    }
+
+    public void notifyChanges() {
+        for (DataBaseListener i : listeners) {
+            i.dataBaseChanged();
+        }
     }
 }

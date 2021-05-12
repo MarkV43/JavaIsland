@@ -3,7 +3,7 @@ package com.pavogt.javaisland.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Client implements DataBaseItem {
+public class Client extends DataBaseItem<Client> {
 
     public static final long serialVersionUID = 3L;
 
@@ -15,7 +15,8 @@ public class Client implements DataBaseItem {
     private boolean admin;
     private ArrayList<Transaction> history;
 
-    public Client(long uuid, String name, String email, long password, float balance, boolean admin, ArrayList<Transaction> history) {
+    public Client(DataBase<Client> db, long uuid, String name, String email, long password, float balance, boolean admin, ArrayList<Transaction> history) {
+        super(db);
         this.uuid = uuid;
         this.name = name;
         this.email = email;
@@ -25,8 +26,8 @@ public class Client implements DataBaseItem {
         this.admin = admin;
     }
 
-    public Client(long uuid, String name, String email, long password, float balance, boolean admin) {
-        this(uuid, name, email, password, balance, admin, new ArrayList<>());
+    public Client(DataBase<Client> db, long uuid, String name, String email, long password, float balance, boolean admin) {
+        this(db, uuid, name, email, password, balance, admin, new ArrayList<>());
     }
 
     public long getUuid() {
@@ -39,6 +40,7 @@ public class Client implements DataBaseItem {
 
     public void setName(String name) {
         this.name = name;
+        notifyDataBase();
     }
 
     public String getEmail() {
@@ -47,6 +49,7 @@ public class Client implements DataBaseItem {
 
     public void setEmail(String email) {
         this.email = email;
+        notifyDataBase();
     }
 
     public long getPassword() {
@@ -55,6 +58,7 @@ public class Client implements DataBaseItem {
 
     public void setPassword(long password) {
         this.password = password;
+        notifyDataBase();
     }
 
     public float getBalance() {
@@ -63,6 +67,7 @@ public class Client implements DataBaseItem {
 
     public void setBalance(float balance) {
         this.balance = balance;
+        notifyDataBase();
     }
 
     public boolean isAdmin() {
@@ -71,6 +76,7 @@ public class Client implements DataBaseItem {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+        notifyDataBase();
     }
 
     public ArrayList<Transaction> getHistory() {
@@ -79,6 +85,7 @@ public class Client implements DataBaseItem {
 
     public void setHistory(ArrayList<Transaction> history) {
         this.history = history;
+        notifyDataBase();
     }
 
     public void addToHistory(Transaction t) {
@@ -86,7 +93,9 @@ public class Client implements DataBaseItem {
     }
 
     public boolean removeFromHistory(Transaction t) {
-        return history.remove(t);
+        boolean b = history.remove(t);
+        notifyDataBase();
+        return b;
     }
 
     @Override

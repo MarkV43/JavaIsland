@@ -1,6 +1,6 @@
 package com.pavogt.javaisland.data;
 
-public class Product implements DataBaseItem {
+public class Product extends DataBaseItem {
 
     public static final long serialVersionUID = 2L;
 
@@ -10,7 +10,8 @@ public class Product implements DataBaseItem {
     private int quantity;
     private String description;
 
-    public Product(long uuid, String name, float price, int quantity, String description) {
+    public Product(DataBase<Product> db, long uuid, String name, float price, int quantity, String description) {
+        super(db);
         this.uuid = uuid;
         this.name = name;
         this.price = price;
@@ -28,6 +29,7 @@ public class Product implements DataBaseItem {
 
     public void setName(String name) {
         this.name = name;
+        notifyDataBase();
     }
 
     public float getPrice() {
@@ -36,6 +38,7 @@ public class Product implements DataBaseItem {
 
     public void setPrice(float price) {
         this.price = price;
+        notifyDataBase();
     }
 
     public int getQuantity() {
@@ -44,6 +47,7 @@ public class Product implements DataBaseItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+        notifyDataBase();
     }
 
     public String getDescription() {
@@ -52,6 +56,7 @@ public class Product implements DataBaseItem {
 
     public void setDescription(String description) {
         this.description = description;
+        notifyDataBase();
     }
 
     @Override

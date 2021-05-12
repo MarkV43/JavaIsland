@@ -7,7 +7,7 @@ import java.io.*;
 public class Test {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        Client[] clients = new Client[2];
+        /*Client[] clients = new Client[2];
         clients[0] = new Client(0, "Marcelo", "marcelo.vogt@grad.ufsc.br", 0, 99999, true);
         clients[1] = new Client(2, "Luís Eduardo", "luis.e.parise@grad.ufsc.br", 0, 69, false);
 
@@ -24,6 +24,6 @@ public class Test {
 
         for (Client c: cs) {
             System.out.println(c);
-        }
+        }*/
     }
 }
