@@ -164,6 +164,7 @@ public class Admin extends Panel implements DataBaseListener {
         add(description2);
 
 
+
         Button newproduct = new Button("Add product");
         newproduct.setBounds(925, 400, 288, 30);
         newproduct.setFont(font2);
@@ -177,7 +178,7 @@ public class Admin extends Panel implements DataBaseListener {
                     productDB,
                     uuid + 1,
                     name2.getText(),
-                    Float.parseFloat(price2.getText()),
+                    Integer.parseInt(price2.getText()),
                     Integer.parseInt(quantity2.getText()),
                     "");
 
@@ -210,7 +211,7 @@ public class Admin extends Panel implements DataBaseListener {
         saveproduct.addActionListener(e -> {
             Product tempprod;
             int index = stock.getSelectedIndex();
-            tempprod = new Product(productDB, index, name.getText(), Float.parseFloat(price.getText()), Integer.parseInt(quantity.getText()), description.getText());
+            tempprod = new Product(productDB, index, name.getText(), Integer.parseInt(price.getText()), Integer.parseInt(quantity.getText()), description.getText());
             productDB.mod(index, tempprod);
         });
 

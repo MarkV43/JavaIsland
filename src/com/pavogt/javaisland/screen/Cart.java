@@ -39,7 +39,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
     Label totalPrice;
     Button finishBuying;
 
-    float priceTot;
+    int priceTot;
 
     private Product selectedProduct;
 

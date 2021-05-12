@@ -5,17 +5,17 @@ import java.util.ArrayList;
 
 public class Client extends DataBaseItem<Client> {
 
-    public static final long serialVersionUID = 3L;
+    public static final long serialVersionUID = 4L;
 
     private final long uuid;
     private String name;
     private String email;
     private long password;
-    private float balance;
+    private int balance;
     private boolean admin;
     private ArrayList<Transaction> history;
 
-    public Client(DataBase<Client> db, long uuid, String name, String email, long password, float balance, boolean admin, ArrayList<Transaction> history) {
+    public Client(DataBase<Client> db, long uuid, String name, String email, long password, int balance, boolean admin, ArrayList<Transaction> history) {
         super(db);
         this.uuid = uuid;
         this.name = name;
@@ -26,7 +26,7 @@ public class Client extends DataBaseItem<Client> {
         this.admin = admin;
     }
 
-    public Client(DataBase<Client> db, long uuid, String name, String email, long password, float balance, boolean admin) {
+    public Client(DataBase<Client> db, long uuid, String name, String email, long password, int balance, boolean admin) {
         this(db, uuid, name, email, password, balance, admin, new ArrayList<>());
     }
 
@@ -61,11 +61,11 @@ public class Client extends DataBaseItem<Client> {
         notifyDataBase();
     }
 
-    public float getBalance() {
+    public int getBalance() {
         return balance;
     }
 
-    public void setBalance(float balance) {
+    public void setBalance(int balance) {
         this.balance = balance;
         notifyDataBase();
     }

@@ -78,7 +78,7 @@ public class LoginManager implements DataBaseListener {
         }
     }
 
-    public void register(String username, String password, String email, float balance) {
+    public void register(String username, String password, String email, int balance) {
         long hash = hashPassword(username, password);
         long uuid = db.getNextUuid();
         Client user = new Client(db, uuid, username, email, hash, balance, false);
