@@ -102,7 +102,7 @@ public class MainWindow extends Frame implements CartListener {
 
         Panel initialPanel = new Initial();
 
-        clientsPanel = new Clients(clientDB);
+        clientsPanel = new Clients(clientDB, loginManager);
         adminPanel = new Admin(productDB);
         storePanel = new Store(clientDB, productDB, cartManager);
         cartPanel = new Cart(clientDB, productDB, loginManager, cartManager);

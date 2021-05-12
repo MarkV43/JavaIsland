@@ -4,12 +4,9 @@ import com.pavogt.javaisland.component.BackgroundPanel;
 import com.pavogt.javaisland.data.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Admin extends Panel implements DataBaseListener {
 
@@ -178,7 +175,7 @@ public class Admin extends Panel implements DataBaseListener {
                     productDB,
                     uuid + 1,
                     name2.getText(),
-                    Integer.parseInt(price2.getText()),
+                    (long) Float.parseFloat(price2.getText()) * 100,
                     Integer.parseInt(quantity2.getText()),
                     "");
 

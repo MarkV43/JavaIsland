@@ -1,5 +1,6 @@
 package com.pavogt.javaisland.screen;
 
+import com.pavogt.javaisland.LoginManager;
 import com.pavogt.javaisland.data.*;
 
 import java.awt.*;
@@ -7,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -27,12 +30,14 @@ public class Clients extends Panel implements DataBaseListener {
     private Label lemail;
     private List history;
     private final ClientDataBase clientDB;
+    private final LoginManager loginManager;
 
     private Client selectedClient = null;
 
-    public Clients(ClientDataBase clientDB) {
+    public Clients(ClientDataBase clientDB, LoginManager lm) {
         this.clientDB = clientDB;
         this.clientDB.addListener(this);
+        this.loginManager = lm;
 
         makeScreen();
     }
@@ -139,26 +144,15 @@ public class Clients extends Panel implements DataBaseListener {
         newclient.setBounds(905, 500, 288, 30);
         newclient.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         newclient.addActionListener(e -> {
-            long uuid = 0;
-            for (Client clien : clientDB.getData()) {
-                if (clien.getUuid() > uuid) uuid = clien.getUuid();
-            }
-
-            Client clien = new Client(
-                    clientDB,
-                    uuid + 1,
-                    name2.getText(),
-                    email2.getText(),
-                    Long.parseLong(password2.getText()),
-                    Integer.parseInt(balance2.getText()),
-                    false, new ArrayList<>());
+            String balance = balance2.getText();
+            BigDecimal bd = new BigDecimal(balance);
+            long bal = bd.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN).longValue();
+            loginManager.register(name2.getText(), password2.getText(), email2.getText(), bal);
 
             name2.setText("");
             email2.setText("");
             balance2.setText("");
             password2.setText("");
-
-            clientDB.add(clien);
         });
         add(newclient);
 
@@ -180,13 +174,18 @@ public class Clients extends Panel implements DataBaseListener {
             Client tempprod;
             int index = list.getSelectedIndex();
             Client c = clientDB.getData().get(index);
+
+            String balText = balance.getText();
+            BigDecimal bd = new BigDecimal(balText);
+            long bal = bd.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN).longValue();
+
             tempprod = new Client(
                     clientDB,
                     c.getUuid(),
                     name.getText(),
                     email.getText(),
                     c.getPassword(),
-                    Integer.parseInt(balance.getText()),
+                    bal,
                     false,
                     c.getHistory());
             clientDB.mod(index, tempprod);
@@ -204,15 +203,21 @@ public class Clients extends Panel implements DataBaseListener {
 
     void itemClicked() {
         int index = list.getSelectedIndex();
-        Client c = clientDB.getData().get(index);
-        selectedClient = c;
-        name.setText(c.getName());
-        email.setText(c.getEmail());
-        balance.setText(Float.toString(c.getBalance()));
+        if (index >= 0) {
+            Client c = clientDB.getData().get(index);
+            selectedClient = c;
+            name.setText(c.getName());
+            email.setText(c.getEmail());
+            long bal = c.getBalance();
+            String dec = String.valueOf(bal % 100);
+            if (bal % 100 < 10)
+                dec = '0' + dec;
+            balance.setText(String.valueOf(bal / 100) + '.' + dec);
 
-        history.removeAll();
-        for (Transaction t : c.getHistory()) {
-            history.add(t.getPrice() + " - " + t.getProducts().size() + " Products");
+            history.removeAll();
+            for (Transaction t : c.getHistory()) {
+                history.add(t.getPrice() + " - " + t.getProducts().size() + " Products");
+            }
         }
     }
 
@@ -225,9 +230,7 @@ public class Clients extends Panel implements DataBaseListener {
 
         history.removeAll();
         if (selectedClient != null) {
-            for (Transaction t : selectedClient.getHistory()) {
-                history.add(t.getPrice() + " - " + t.getProducts().size() + " Products");
-            }
+            itemClicked();
         }
     }
 }

@@ -1,16 +1,16 @@
 package com.pavogt.javaisland.data;
 
-public class Product extends DataBaseItem {
+public class Product extends DataBaseItem<Product> {
 
     public static final long serialVersionUID = 3L;
 
     private final long uuid;
     private String name;
-    private int price;
+    private long price;
     private int quantity;
     private String description;
 
-    public Product(DataBase<Product> db, long uuid, String name, int price, int quantity, String description) {
+    public Product(DataBase<Product> db, long uuid, String name, long price, int quantity, String description) {
         super(db);
         this.uuid = uuid;
         this.name = name;
@@ -32,11 +32,11 @@ public class Product extends DataBaseItem {
         notifyDataBase();
     }
 
-    public int getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(long price) {
         this.price = price;
         notifyDataBase();
     }

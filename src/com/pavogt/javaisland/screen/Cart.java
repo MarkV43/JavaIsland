@@ -7,14 +7,8 @@ import com.pavogt.javaisland.data.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.nio.charset.StandardCharsets;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 
 public class Cart extends Panel implements CartListener, LoginListener {
     private final ClientDataBase clientDB;
@@ -39,7 +33,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
     Label totalPrice;
     Button finishBuying;
 
-    int priceTot;
+    long priceTot;
 
     private Product selectedProduct;
 
@@ -95,17 +89,17 @@ public class Cart extends Panel implements CartListener, LoginListener {
         productPrice = new Label("Price");
         productPrice.setBounds(480, 110, 140, 30);
         productPrice.setFont(font2);
-        productDescription = new TextArea("",6,100, TextArea.SCROLLBARS_NONE);
+        productDescription = new TextArea("", 6, 100, TextArea.SCROLLBARS_NONE);
         productDescription.setBounds(480, 160, 300, 200);
         productDescription.setFont(font2);
         productAmount = new Label("Qtd");
-        productAmount.setBounds(585, 370, 80,30);
+        productAmount.setBounds(585, 370, 80, 30);
         productAmount.setFont(font2);
         totalPrice = new Label("Price");
         totalPrice.setBounds(480, 470, 140, 30);
 
         removeItem = new Button("Remove item");
-        removeItem.setBounds(480,410,300,30);
+        removeItem.setBounds(480, 410, 300, 30);
         removeItem.setFont(font2);
         removeItem.addActionListener(e -> {
             cartManager.removeProduct(selectedProduct);
@@ -114,7 +108,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
 
         Label productslist = new Label("ITEMS:");
         productslist.setFont(font1);
-        productslist.setBounds(140,20,200,30);
+        productslist.setBounds(140, 20, 200, 30);
 
 
         Button amountLess = new Button("-");
@@ -168,7 +162,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
         add(welcome);
 
         BackgroundPanel back = new BackgroundPanel();
-        back.setBounds(0,0,1280,720);
+        back.setBounds(0, 0, 1280, 720);
 
         setBackground(Color.LIGHT_GRAY);
         setLayout(null);
@@ -226,7 +220,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
             priceTot += product.getPrice() * cartManager.getAmount(uuid);
         }
 
-        totalPrice.setText("Total: R$ " + String.format("%.2f", priceTot));
+        totalPrice.setText("Total: R$ " + String.format("%.2f", priceTot / 100f));
 
         if (selectedProduct != null) {
             productList.select(cartManager.indexOf(selectedProduct));

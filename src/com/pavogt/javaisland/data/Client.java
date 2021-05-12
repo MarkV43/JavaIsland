@@ -1,21 +1,20 @@
 package com.pavogt.javaisland.data;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Client extends DataBaseItem<Client> {
 
-    public static final long serialVersionUID = 4L;
+    public static final long serialVersionUID = 5L;
 
     private final long uuid;
     private String name;
     private String email;
     private long password;
-    private int balance;
+    private long balance;
     private boolean admin;
     private ArrayList<Transaction> history;
 
-    public Client(DataBase<Client> db, long uuid, String name, String email, long password, int balance, boolean admin, ArrayList<Transaction> history) {
+    public Client(DataBase<Client> db, long uuid, String name, String email, long password, long balance, boolean admin, ArrayList<Transaction> history) {
         super(db);
         this.uuid = uuid;
         this.name = name;
@@ -26,7 +25,7 @@ public class Client extends DataBaseItem<Client> {
         this.admin = admin;
     }
 
-    public Client(DataBase<Client> db, long uuid, String name, String email, long password, int balance, boolean admin) {
+    public Client(DataBase<Client> db, long uuid, String name, String email, long password, long balance, boolean admin) {
         this(db, uuid, name, email, password, balance, admin, new ArrayList<>());
     }
 
@@ -61,11 +60,11 @@ public class Client extends DataBaseItem<Client> {
         notifyDataBase();
     }
 
-    public int getBalance() {
+    public long getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(long balance) {
         this.balance = balance;
         notifyDataBase();
     }
