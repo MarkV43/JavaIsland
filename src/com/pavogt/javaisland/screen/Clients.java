@@ -93,7 +93,7 @@ public class Clients extends Panel implements DataBaseListener, KeyListener {
         add(lbalance);
 
         history = new List(100, false);
-        history.setBounds(460, 270, 300, 300);
+        history.setBounds(460, 300, 300, 300);
         add(history);
 
         Label namelabel = new Label("Name:");
@@ -122,6 +122,11 @@ public class Clients extends Panel implements DataBaseListener, KeyListener {
         password2.setBounds(925, 350, 250,30);
         password2.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(password2);
+
+        Label historyLabel = new Label("Purchase History");
+        historyLabel.setBounds(540,260,300,30);
+        historyLabel.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(historyLabel);
 
         Label balancelabel = new Label("Balance:");
         balancelabel.setBounds(1015, 400, 140, 30);
@@ -188,7 +193,7 @@ public class Clients extends Panel implements DataBaseListener, KeyListener {
         setBounds(0, 90, 1280, 660);
 
         Button removeHistory = new Button("Remove selected transaction");
-        removeHistory.setBounds(460,600, 300,30);
+        removeHistory.setBounds(460,610, 300,30);
         removeHistory.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         removeHistory.addActionListener(e -> {
             int index = list.getSelectedIndex();

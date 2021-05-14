@@ -274,7 +274,7 @@ public class Cart extends Panel implements CartListener, LoginListener, KeyListe
             String dec = String.valueOf(bal % 100);
             if (bal % 100 < 10)
                 dec = '0' + dec;
-            welcome.setText("Bem vindo, " + loginManager.getLoggedUser().getName() + ". Você tem R$ " + bal / 100 + '.' + dec);
+            welcome.setText("Bem vindo(a), " + loginManager.getLoggedUser().getName() + ". Você tem R$ " + bal / 100 + '.' + dec);
             finishBuying.setEnabled(true);
 
         } else {
