@@ -132,7 +132,7 @@ public class Store extends Panel implements KeyListener {
     }
 
     public void productDataBaseChanged() {
-        makeSearch();
+        makeSearch(true);
     }
 
     public void productSelected(AWTEvent e) {
@@ -154,8 +154,14 @@ public class Store extends Panel implements KeyListener {
         return Normalizer.normalize(s, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
 
-    private void makeSearch() {
+    String previousSearch = null;
+
+    private void makeSearch(boolean update) {
         String text = removeAccents(search.getText().toLowerCase());
+        if (text.equals(previousSearch) && !update) {
+            return;
+        }
+        previousSearch = text;
         String[] parts = text.split(" ");
         ArrayList<Product> products = productDB.getData();
         productList.clear();
@@ -181,16 +187,16 @@ public class Store extends Panel implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        makeSearch();
+        makeSearch(false);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        makeSearch();
+        makeSearch(false);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        makeSearch();
+        makeSearch(false);
     }
 }

@@ -33,6 +33,7 @@ public class Cart extends Panel implements CartListener, LoginListener, KeyListe
     TextField username;
     JPasswordField password;
     Button login;
+    Button logOut;
     Label welcome;
     Button removeItem;
     Label totalPrice;
@@ -162,17 +163,23 @@ public class Cart extends Panel implements CartListener, LoginListener, KeyListe
         username = new TextField();
         password = new JPasswordField();
         login = new Button("Login");
+        logOut = new Button("Log out");
 
         username.setBounds(900, 20, 166, 30);
         password.setBounds(1086, 20, 106, 30);
         login.setBounds(1212, 20, 50, 30);
-
-        Button logOut = new Button("Log out");
         logOut.setBounds(1212, 70, 50,30);
+
 
         login.addActionListener(e -> {
             loginManager.login(username.getText(), new String(password.getPassword()));
         });
+
+        logOut.addActionListener(e -> {
+            loginManager.logout();
+        });
+
+        logOut.setVisible(false);
 
         add(username);
         add(password);
@@ -244,7 +251,7 @@ public class Cart extends Panel implements CartListener, LoginListener, KeyListe
 
     @Override
     public void cartChanged() {
-        makeSearch();
+        makeSearch(true);
 
         totalPrice.setText("Total: R$ " + String.format("%.2f", priceTot / 100f));
 
@@ -261,6 +268,7 @@ public class Cart extends Panel implements CartListener, LoginListener, KeyListe
             username.setVisible(false);
             password.setVisible(false);
             login.setVisible(false);
+            logOut.setVisible(true);
             welcome.setVisible(true);
             long bal = loginManager.getLoggedUser().getBalance();
             String dec = String.valueOf(bal % 100);
@@ -273,6 +281,7 @@ public class Cart extends Panel implements CartListener, LoginListener, KeyListe
             username.setVisible(true);
             password.setVisible(true);
             login.setVisible(true);
+            logOut.setVisible(false);
             welcome.setVisible(false);
             finishBuying.setEnabled(false);
         }
@@ -282,8 +291,14 @@ public class Cart extends Panel implements CartListener, LoginListener, KeyListe
         return Normalizer.normalize(s, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
 
-    private void makeSearch() {
+    String previousSearch = null;
+
+    private void makeSearch(boolean update) {
         String text = removeAccents(search.getText().toLowerCase());
+        if (text.equals(previousSearch) && !update) {
+            return;
+        }
+        previousSearch = text;
         String[] parts = text.split(" ");
         ArrayList<Product> products = new ArrayList<>();
         for (long uuid: cartManager.getProductList()) {
@@ -312,16 +327,16 @@ public class Cart extends Panel implements CartListener, LoginListener, KeyListe
 
     @Override
     public void keyTyped(KeyEvent e) {
-        makeSearch();
+        makeSearch(false);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        makeSearch();
+        makeSearch(false);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        makeSearch();
+        makeSearch(false);
     }
 }

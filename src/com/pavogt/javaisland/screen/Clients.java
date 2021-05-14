@@ -247,8 +247,14 @@ public class Clients extends Panel implements DataBaseListener, KeyListener {
         return Normalizer.normalize(s, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
 
-    private void makeSearch() {
+    String previousSearch = null;
+
+    private void makeSearch(boolean update) {
         String text = removeAccents(search.getText().toLowerCase());
+        if (text.equals(previousSearch) && !update) {
+            return;
+        }
+        previousSearch = text;
         String[] parts = text.split(" ");
         ArrayList<Client> clients = clientDB.getData();
         clientList.clear();
@@ -275,7 +281,7 @@ public class Clients extends Panel implements DataBaseListener, KeyListener {
 
     @Override
     public void dataBaseChanged() {
-        makeSearch();
+        makeSearch(true);
 
         history.removeAll();
         if (selectedClient != null) {
@@ -285,16 +291,16 @@ public class Clients extends Panel implements DataBaseListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        makeSearch();
+        makeSearch(false);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        makeSearch();
+        makeSearch(false);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        makeSearch();
+        makeSearch(false);
     }
 }

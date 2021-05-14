@@ -59,17 +59,20 @@ public class LoginManager implements DataBaseListener {
     }
 
     public Client getUser(String username) {
-        Client user = null;
         for (int i = 0; i < db.getData().size(); i++) {
-            user = db.getData().get(i);
-            if (user.getEmail().equals(username)) break;
+            Client user = db.getData().get(i);
+            if (user.getEmail().equals(username)) return user;
         }
-        return user;
+        for (int i = 0; i < db.getData().size(); i++) {
+            Client user = db.getData().get(i);
+            if (user.getName().equals(username)) return user;
+        }
+        return null;
     }
 
     public void login(String username, String password) {
         Client user = getUser(username);
-        long hash = hashPassword(username, password);
+        long hash = hashPassword(user.getEmail(), password);
         if (user.getPassword() == hash) {
             loggedUser = user;
             for (LoginListener l : listeners) {
@@ -99,6 +102,13 @@ public class LoginManager implements DataBaseListener {
 
     @Override
     public void dataBaseChanged() {
+        for (LoginListener l : listeners) {
+            l.loginChanged();
+        }
+    }
+
+    public void logout() {
+        loggedUser = null;
         for (LoginListener l : listeners) {
             l.loginChanged();
         }
