@@ -28,17 +28,14 @@ public class Store extends Panel {
     Font font1 = new Font("Rockwell Nova", Font.PLAIN, 25);
     Font font2 = new Font("Rockwell Nova", Font.PLAIN, 18);
 
-    private final ClientDataBase clientDB;
     private final ProductDataBase productDB;
     private final CartManager cartManager;
 
 
     public Store(ClientDataBase clientDB, ProductDataBase productDB, CartManager cartManager) {
-        this.clientDB = clientDB;
         this.productDB = productDB;
         this.cartManager = cartManager;
 
-        clientDB.addListener(this::clientDataBaseChanged);
         productDB.addListener(this::productDataBaseChanged);
 
         products = productDB.getData();
@@ -111,10 +108,6 @@ public class Store extends Panel {
 
         setLayout(null);
         setBounds(0, 90, 1280, 660);
-    }
-
-    public void clientDataBaseChanged() {
-
     }
 
     public void productDataBaseChanged() {

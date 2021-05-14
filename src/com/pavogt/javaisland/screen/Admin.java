@@ -6,6 +6,7 @@ import com.pavogt.javaisland.data.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class Admin extends Panel implements DataBaseListener {
@@ -161,7 +162,6 @@ public class Admin extends Panel implements DataBaseListener {
         add(description2);
 
 
-
         Button newproduct = new Button("Add product");
         newproduct.setBounds(925, 400, 288, 30);
         newproduct.setFont(font2);
@@ -171,11 +171,15 @@ public class Admin extends Panel implements DataBaseListener {
                 if (prod.getUuid() > uuid) uuid = prod.getUuid();
             }
 
+            String balance = price2.getText();
+            BigDecimal bd = new BigDecimal(balance);
+            long bal = bd.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN).longValue();
+
             Product prod = new Product(
                     productDB,
                     uuid + 1,
                     name2.getText(),
-                    (long) Float.parseFloat(price2.getText()) * 100,
+                    bal,
                     Integer.parseInt(quantity2.getText()),
                     "");
 
@@ -208,7 +212,19 @@ public class Admin extends Panel implements DataBaseListener {
         saveproduct.addActionListener(e -> {
             Product tempprod;
             int index = stock.getSelectedIndex();
-            tempprod = new Product(productDB, index, name.getText(), Integer.parseInt(price.getText()), Integer.parseInt(quantity.getText()), description.getText());
+
+            String balance = price.getText();
+            BigDecimal bd = new BigDecimal(balance);
+            long bal = bd.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN).longValue();
+
+            tempprod = new Product(
+                    productDB,
+                    index,
+                    name.getText(),
+                    bal,
+                    Integer.parseInt(quantity.getText()),
+                    description.getText()
+            );
             productDB.mod(index, tempprod);
         });
 

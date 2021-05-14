@@ -4,20 +4,19 @@ import com.pavogt.javaisland.LoginManager;
 import com.pavogt.javaisland.data.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static java.lang.Float.parseFloat;
 
-public class Clients extends Panel implements DataBaseListener {
+public class Clients extends Panel implements DataBaseListener, KeyListener {
 
     private List list;
+    private TextArea search;
     private TextArea name;
     private TextArea email;
     private TextArea balance;
@@ -25,12 +24,11 @@ public class Clients extends Panel implements DataBaseListener {
     private TextArea balance2;
     private TextArea name2;
     private TextArea password2;
-    private Label lname;
-    private Label lbalance;
-    private Label lemail;
     private List history;
     private final ClientDataBase clientDB;
     private final LoginManager loginManager;
+
+    private final ArrayList<Client> clientList;
 
     private Client selectedClient = null;
 
@@ -38,6 +36,8 @@ public class Clients extends Panel implements DataBaseListener {
         this.clientDB = clientDB;
         this.clientDB.addListener(this);
         this.loginManager = lm;
+
+        this.clientList = new ArrayList<>();
 
         makeScreen();
     }
@@ -49,9 +49,10 @@ public class Clients extends Panel implements DataBaseListener {
         bAdd.setFont(font);
         add(bAdd);
 
-        TextArea search = new TextArea("", 1, 30, TextArea.SCROLLBARS_NONE);
+        search = new TextArea("", 1, 30, TextArea.SCROLLBARS_NONE);
         search.setBounds(60, 20, 300, 30);
         search.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        search.addKeyListener(this);
         add(search);
 
         list = new List(100, false);
@@ -77,7 +78,7 @@ public class Clients extends Panel implements DataBaseListener {
         name.setBounds(460, 20, 300, 30);
         name.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(name);
-        lname = new Label("Name:");
+        Label lname = new Label("Name:");
         lname.setBounds(380,20,70,30);
         lname.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(lname);
@@ -86,7 +87,7 @@ public class Clients extends Panel implements DataBaseListener {
         email.setBounds(460, 70, 300, 30);
         email.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(email);
-        lemail = new Label("E-mail:");
+        Label lemail = new Label("E-mail:");
         lemail.setBounds(380,70,70,30);
         lemail.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(lemail);
@@ -95,7 +96,7 @@ public class Clients extends Panel implements DataBaseListener {
         balance.setBounds(460, 120, 300, 30);
         balance.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(balance);
-        lbalance = new Label("Balance:");
+        Label lbalance = new Label("Balance:");
         lbalance.setBounds(380,120,70,30);
         lbalance.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         add(lbalance);
@@ -221,16 +222,65 @@ public class Clients extends Panel implements DataBaseListener {
         }
     }
 
-    @Override
-    public void dataBaseChanged() {
+    private void updateClientList() {
         list.removeAll();
-        for (Client cli : clientDB.getData()) {
+        for (Client cli : clientList) {
             list.add(cli.getName());
         }
+    }
+
+    private String removeAccents(String s) {
+        return Normalizer.normalize(s, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
+
+    private void makeSearch() {
+        String text = removeAccents(search.getText().toLowerCase());
+        String[] parts = text.split(" ");
+        ArrayList<Client> clients = clientDB.getData();
+        clientList.clear();
+        if (text.trim().length() == 0) {
+            clientList.addAll(clients);
+
+        } else {
+            for (Client client : clients) {
+                String name = removeAccents(client.getName().toLowerCase());
+                boolean show = true;
+                for (String part : parts) {
+                    if (!name.contains(part)) {
+                        show = false;
+                        break;
+                    }
+                }
+                if (show) {
+                    clientList.add(client);
+                }
+            }
+        }
+        updateClientList();
+    }
+
+    @Override
+    public void dataBaseChanged() {
+        makeSearch();
 
         history.removeAll();
         if (selectedClient != null) {
             itemClicked();
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        makeSearch();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        makeSearch();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        makeSearch();
     }
 }
