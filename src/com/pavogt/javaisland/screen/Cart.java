@@ -7,10 +7,14 @@ import com.pavogt.javaisland.data.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.Normalizer;
+import java.util.ArrayList;
 
-public class Cart extends Panel implements CartListener, LoginListener {
+public class Cart extends Panel implements CartListener, LoginListener, KeyListener {
     private final ClientDataBase clientDB;
     private final ProductDataBase productDB;
     private final LoginManager loginManager;
@@ -21,7 +25,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
     Font font1 = new Font("Rockwell Nova", Font.PLAIN, 25);
     Font font2 = new Font("Rockwell Nova", Font.PLAIN, 18);
 
-    private List productList;
+    private List list;
     Label productName;
     Label productPrice;
     Label productAmount;
@@ -36,6 +40,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
 
     long priceTot;
 
+    private ArrayList<Product> productList;
     private Product selectedProduct;
 
     public Cart(ClientDataBase clientDB, ProductDataBase productDB, LoginManager loginManager, CartManager cartManager) {
@@ -47,30 +52,35 @@ public class Cart extends Panel implements CartListener, LoginListener {
         this.cartManager.addListener(this);
         this.loginManager.addListener(this);
 
+        this.productList = new ArrayList<>();
+        for (Long uuid : cartManager.getProductList()) {
+            productList.add(productDB.getFromUuid(uuid));
+        }
+
         makeScreen();
     }
 
     private void makeScreen() {
-        productList = new List(100, false);
+        list = new List(100, false);
 
         search = new TextArea("", 1, 30, TextArea.SCROLLBARS_NONE);
         search.setBounds(20, 60, 340, 30);
         search.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        search.addKeyListener(this);
         add(search);
 
-        for (long uuid : cartManager.getProductList()) {
-            Product product = productDB.getFromUuid(uuid);
+        for (Product product : productList) {
             long bal = product.getPrice();
             String dec = String.valueOf(bal % 100);
             if (bal % 100 < 10)
                 dec = '0' + dec;
-            productList.add(product.getName() + " - R$ " + String.valueOf(bal / 100) + '.' + dec + " - " + cartManager.getAmount(uuid));
+            list.add(product.getName() + " - R$ " + String.valueOf(bal / 100) + '.' + dec + " - " + cartManager.getAmount(product));
         }
 
-        productList.setBounds(20, 100, 340, 500);
+        list.setBounds(20, 100, 340, 500);
 
-        productList.addActionListener(this::productSelected);
-        productList.addMouseListener(new MouseAdapter() {
+        list.addActionListener(this::productSelected);
+        list.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 productSelected(e);
@@ -82,7 +92,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
             }
         });
 
-        add(productList);
+        add(list);
 
         finishBuying = new Button("Finalizar Compra");
         finishBuying.setBounds(20, 610, 340, 30);
@@ -144,7 +154,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
         add(amountLess);
         add(amountMore);
         add(removeItem);
-        add(productList);
+        add(list);
         add(productslist);
         add(totalPrice);
 
@@ -179,7 +189,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
     }
 
     private void productSelected(AWTEvent e) {
-        int index = productList.getSelectedIndex();
+        int index = list.getSelectedIndex();
         if (index != -1) {
             Product c = productDB.getFromUuid(cartManager.get(index));
             long bal = c.getPrice();
@@ -196,54 +206,46 @@ public class Cart extends Panel implements CartListener, LoginListener {
 
     void finishPurchase() {
         Client c = loginManager.getLoggedUser();
-        if (c.getBalance() >= priceTot && priceTot > 0 && cartManager.getProductList().size() > 0) {
+        if (c.getBalance() >= priceTot && priceTot > 0 && productList.size() > 0) {
             boolean enabled = true;
-            for (Long prodId : cartManager.getProductList()) {
-                Product prod = productDB.getFromUuid(prodId);
-                if (cartManager.getAmount(prodId) > prod.getQuantity()) {
+            for (Product prod : productList) {
+                if (cartManager.getAmount(prod.getUuid()) > prod.getQuantity()) {
                     enabled = false;
                 }
             }
-
             if (enabled) {
                 c.setBalance(c.getBalance() - priceTot);
-
                 Transaction trans = new Transaction(priceTot, cartManager.getProductList(), cartManager.getAmountList());
-
                 c.addToHistory(trans);
-
                 cartManager.removeAll();
-
                 selectedProduct = null;
-
                 productSelected(null);
             }
         }
     }
     void updateCartList(){
-        productList.removeAll();
+        list.removeAll();
 
         priceTot = 0;
-        for (long uuid : cartManager.getProductList()) {
-            Product product = productDB.getFromUuid(uuid);
+        for (Product product : productList) {
             long bal = product.getPrice();
             String dec = String.valueOf(bal % 100);
             if (bal % 100 < 10)
                 dec = '0' + dec;
-            productList.add(product.getName() + " - R$ " + String.valueOf(bal / 100) + '.' + dec + " - " + cartManager.getAmount(uuid));
-            priceTot += product.getPrice() * cartManager.getAmount(uuid);
+            int amount = cartManager.getAmount(product);
+            list.add(product.getName() + " - R$ " + bal / 100 + '.' + dec + " - " + amount);
+            priceTot += product.getPrice() * amount;
         }
     }
 
     @Override
     public void cartChanged() {
-
-        updateCartList();
+        makeSearch();
 
         totalPrice.setText("Total: R$ " + String.format("%.2f", priceTot / 100f));
 
         if (selectedProduct != null) {
-            productList.select(cartManager.indexOf(selectedProduct));
+            list.select(cartManager.indexOf(selectedProduct));
         }
         productSelected(null);
     }
@@ -270,5 +272,52 @@ public class Cart extends Panel implements CartListener, LoginListener {
             welcome.setVisible(false);
             finishBuying.setEnabled(false);
         }
+    }
+
+    private String removeAccents(String s) {
+        return Normalizer.normalize(s, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
+
+    private void makeSearch() {
+        String text = removeAccents(search.getText().toLowerCase());
+        String[] parts = text.split(" ");
+        ArrayList<Product> products = new ArrayList<>();
+        for (long uuid: cartManager.getProductList()) {
+            products.add(productDB.getFromUuid(uuid));
+        }
+        productList.clear();
+        if (text.trim().length() == 0) {
+            productList.addAll(products);
+        } else {
+            for (Product product : products) {
+                String name = removeAccents(product.getName().toLowerCase());
+                boolean show = true;
+                for (String part : parts) {
+                    if (!name.contains(part)) {
+                        show = false;
+                        break;
+                    }
+                }
+                if (show) {
+                    productList.add(product);
+                }
+            }
+        }
+        updateCartList();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        makeSearch();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        makeSearch();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        makeSearch();
     }
 }
