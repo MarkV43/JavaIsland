@@ -50,12 +50,12 @@ public class LoginManager implements DataBaseListener {
     }
 
     public long hashPassword(String username, String password) {
-        String salt0 = generateSalt(username + password);
+        /*String salt0 = generateSalt(username + password);
         String salt1 = generateSalt(username + salt0);
         String salt2 = generateSalt(password + salt1);
-        String salt3 = generateSalt(salt0 + salt1 + salt2);
+        String salt3 = generateSalt(salt0 + salt1 + salt2);*/
 
-        return stringHash(username + password + salt0 + salt1 + salt2 + salt3);
+        return stringHash(username + password /*+ salt0 + salt1 + salt2 + salt3*/);
     }
 
     public Client getUser(String username) {
