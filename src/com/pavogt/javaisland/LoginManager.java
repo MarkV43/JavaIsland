@@ -50,12 +50,12 @@ public class LoginManager implements DataBaseListener {
     }
 
     public long hashPassword(String username, String password) {
-        /*String salt0 = generateSalt(username + password);
+        String salt0 = generateSalt(username + password);
         String salt1 = generateSalt(username + salt0);
         String salt2 = generateSalt(password + salt1);
-        String salt3 = generateSalt(salt0 + salt1 + salt2);*/
+        String salt3 = generateSalt(salt0 + salt1 + salt2);
 
-        return stringHash(username + password /*+ salt0 + salt1 + salt2 + salt3*/);
+        return stringHash(username + password + salt0 + salt1 + salt2 + salt3);
     }
 
     public Client getUser(String username) {
@@ -68,8 +68,8 @@ public class LoginManager implements DataBaseListener {
     }
 
     public void login(String username, String password) {
-        long hash = hashPassword(username, password);
         Client user = getUser(username);
+        long hash = hashPassword(username, password);
         if (user.getPassword() == hash) {
             loggedUser = user;
             for (LoginListener l : listeners) {
@@ -79,7 +79,7 @@ public class LoginManager implements DataBaseListener {
     }
 
     public void register(String username, String password, String email, long balance) {
-        long hash = hashPassword(username, password);
+        long hash = hashPassword(email, password);
         long uuid = db.getNextUuid();
         Client user = new Client(db, uuid, username, email, hash, balance, false);
         db.add(user);
