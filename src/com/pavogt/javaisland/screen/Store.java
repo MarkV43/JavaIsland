@@ -14,7 +14,10 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 
+
 public class Store extends Panel {
+
+    private TextArea search;
 
     List productList;
     ArrayList<Product> products;
@@ -46,6 +49,11 @@ public class Store extends Panel {
     void setupScreen() {
         productList = new List(100, false);
 
+        search = new TextArea("", 1, 30, TextArea.SCROLLBARS_NONE);
+        search.setBounds(20, 60, 340, 30);
+        search.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(search);
+
         for (Product product : products) {
             long bal = product.getPrice();
             String dec = String.valueOf(bal % 100);
@@ -54,7 +62,7 @@ public class Store extends Panel {
             productList.add(product.getName() + " - R$ " + String.valueOf(bal / 100) + '.' + dec);
         }
 
-        productList.setBounds(20, 60, 340, 580);
+        productList.setBounds(20, 100, 340, 540);
 
         productList.addActionListener(this::productSelected);
         productList.addMouseListener(new MouseAdapter() {

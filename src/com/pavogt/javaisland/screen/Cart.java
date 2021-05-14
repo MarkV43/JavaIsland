@@ -15,6 +15,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
     private final ProductDataBase productDB;
     private final LoginManager loginManager;
     private final CartManager cartManager;
+    private TextArea search;
     TextArea productDescription;
 
     Font font1 = new Font("Rockwell Nova", Font.PLAIN, 25);
@@ -52,6 +53,11 @@ public class Cart extends Panel implements CartListener, LoginListener {
     private void makeScreen() {
         productList = new List(100, false);
 
+        search = new TextArea("", 1, 30, TextArea.SCROLLBARS_NONE);
+        search.setBounds(20, 60, 340, 30);
+        search.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        add(search);
+
         for (long uuid : cartManager.getProductList()) {
             Product product = productDB.getFromUuid(uuid);
             long bal = product.getPrice();
@@ -61,7 +67,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
             productList.add(product.getName() + " - R$ " + String.valueOf(bal / 100) + '.' + dec + " - " + cartManager.getAmount(uuid));
         }
 
-        productList.setBounds(20, 60, 340, 540);
+        productList.setBounds(20, 100, 340, 500);
 
         productList.addActionListener(this::productSelected);
         productList.addMouseListener(new MouseAdapter() {
