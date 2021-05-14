@@ -213,10 +213,10 @@ public class Admin extends Panel implements DataBaseListener, KeyListener {
 
         add(begoneproduct);
 
-        Button saveproduct = new Button("Save product");
-        saveproduct.setBounds(460, 370, 300, 30);
-        saveproduct.setFont(font2);
-        saveproduct.addActionListener(e -> {
+        Button saveProduct = new Button("Save product");
+        saveProduct.setBounds(460, 370, 300, 30);
+        saveProduct.setFont(font2);
+        saveProduct.addActionListener(e -> {
             String balance = price.getText();
             BigDecimal bd = new BigDecimal(balance);
             long bal = bd.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN).longValue();
@@ -232,7 +232,7 @@ public class Admin extends Panel implements DataBaseListener, KeyListener {
             productDB.modify(tempProd);
         });
 
-        add(saveproduct);
+        add(saveProduct);
 
 
         back = new BackgroundPanel();

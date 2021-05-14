@@ -152,8 +152,7 @@ public class Clients extends Panel implements DataBaseListener, KeyListener {
         begoneclient.setBounds(460,220, 300,30);
         begoneclient.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         begoneclient.addActionListener(e -> {
-            int index = list.getSelectedIndex();
-            clientDB.remove(clientList.get(index));
+            clientDB.remove(selectedClient);
             name.setText("");
             email.setText("");
             balance.setText("");
