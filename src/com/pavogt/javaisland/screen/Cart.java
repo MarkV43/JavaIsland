@@ -54,8 +54,11 @@ public class Cart extends Panel implements CartListener, LoginListener {
 
         for (long uuid : cartManager.getProductList()) {
             Product product = productDB.getFromUuid(uuid);
-
-            productList.add(product.getName() + " - R$ " + product.getPrice() + " - " + cartManager.getAmount(uuid));
+            long bal = product.getPrice();
+            String dec = String.valueOf(bal % 100);
+            if (bal % 100 < 10)
+                dec = '0' + dec;
+            productList.add(product.getName() + " - R$ " + String.valueOf(bal / 100) + '.' + dec + " - " + cartManager.getAmount(uuid));
         }
 
         productList.setBounds(20, 60, 340, 540);
@@ -173,9 +176,13 @@ public class Cart extends Panel implements CartListener, LoginListener {
         int index = productList.getSelectedIndex();
         if (index != -1) {
             Product c = productDB.getFromUuid(cartManager.get(index));
+            long bal = c.getPrice();
+            String dec = String.valueOf(bal % 100);
+            if (bal % 100 < 10)
+                dec = '0' + dec;
+            productPrice.setText("R$ " + String.valueOf(bal / 100) + '.' + dec);
             selectedProduct = c;
             productName.setText(c.getName());
-            productPrice.setText("R$ " + c.getPrice());
             productDescription.setText(c.getDescription());
             productAmount.setText("Qtd: " + cartManager.getAmount(index));
         }
@@ -215,8 +222,11 @@ public class Cart extends Panel implements CartListener, LoginListener {
         priceTot = 0;
         for (long uuid : cartManager.getProductList()) {
             Product product = productDB.getFromUuid(uuid);
-
-            productList.add(product.getName() + " - R$ " + product.getPrice() + " - " + cartManager.getAmount(uuid));
+            long bal = product.getPrice();
+            String dec = String.valueOf(bal % 100);
+            if (bal % 100 < 10)
+                dec = '0' + dec;
+            productList.add(product.getName() + " - R$ " + String.valueOf(bal / 100) + '.' + dec + " - " + cartManager.getAmount(uuid));
             priceTot += product.getPrice() * cartManager.getAmount(uuid);
         }
 
@@ -236,7 +246,11 @@ public class Cart extends Panel implements CartListener, LoginListener {
             password.setVisible(false);
             login.setVisible(false);
             welcome.setVisible(true);
-            welcome.setText("Bem vindo, " + loginManager.getLoggedUser().getName() + ". Você tem R$ " + loginManager.getLoggedUser().getBalance());
+            long bal = loginManager.getLoggedUser().getBalance();
+            String dec = String.valueOf(bal % 100);
+            if (bal % 100 < 10)
+                dec = '0' + dec;
+            welcome.setText("Bem vindo, " + loginManager.getLoggedUser().getName() + ". Você tem R$ " + bal / 100 + '.' + dec);
             finishBuying.setEnabled(true);
 
         } else {

@@ -7,12 +7,12 @@ public class Transaction implements Serializable {
 
     public static final long serialVersionUID = 1L;
 
-    private float price;
+    private long price;
 
     private ArrayList<Long> products;
     private ArrayList<Integer> amounts;
 
-    public Transaction(float price, ArrayList<Long> products, ArrayList<Integer> amounts) {
+    public Transaction(long price, ArrayList<Long> products, ArrayList<Integer> amounts) {
         this.price = price;
         this.products = new ArrayList<>();
         this.amounts = new ArrayList<>();
@@ -20,11 +20,11 @@ public class Transaction implements Serializable {
         this.amounts.addAll(amounts);
     }
 
-    public float getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 

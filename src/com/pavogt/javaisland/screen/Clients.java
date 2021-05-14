@@ -237,7 +237,12 @@ public class Clients extends Panel implements DataBaseListener {
 
             history.removeAll();
             for (Transaction t : c.getHistory()) {
-                history.add(t.getPrice() + " - " + t.getProducts().size() + " Products");
+                long hisPrice = t.getPrice();
+                String decs = String.valueOf(hisPrice % 100);
+                if (hisPrice % 100 < 10)
+                    decs = '0' + decs;
+
+                history.add(String.valueOf(hisPrice / 100) + '.' + decs + " - " + t.getProducts().size() + " Products");
             }
         }
     }

@@ -50,7 +50,11 @@ public class Store extends Panel {
         productList = new List(100, false);
 
         for (Product product : products) {
-            productList.add(product.getName() + " - R$ " + product.getPrice());
+            long bal = product.getPrice();
+            String dec = String.valueOf(bal % 100);
+            if (bal % 100 < 10)
+                dec = '0' + dec;
+            productList.add(product.getName() + " - R$ " + String.valueOf(bal / 100) + '.' + dec);
         }
 
         productList.setBounds(20, 60, 340, 580);
@@ -128,8 +132,12 @@ public class Store extends Panel {
         int index = productList.getSelectedIndex();
         if (index != -1) {
             Product c = productDB.getData().get(index);
+            long bal = c.getPrice();
+            String dec = String.valueOf(bal % 100);
+            if (bal % 100 < 10)
+                dec = '0' + dec;
+            productPrice.setText("R$ " + String.valueOf(bal / 100) + '.' + dec);
             productName.setText(c.getName());
-            productPrice.setText("R$ " + c.getPrice());
             productQuantity.setText("Estoque: " + c.getQuantity());
             productDescription.setText(c.getDescription());
         }

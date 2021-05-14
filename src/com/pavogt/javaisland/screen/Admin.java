@@ -228,8 +228,12 @@ public class Admin extends Panel implements DataBaseListener {
     void itemClicked() {
         int index = stock.getSelectedIndex();
         Product c = products.get(index);
+        long bal = c.getPrice();
+        String dec = String.valueOf(bal % 100);
+        if (bal % 100 < 10)
+            dec = '0' + dec;
+        price.setText(String.valueOf(bal / 100) + '.' + dec);
         name.setText(c.getName());
-        price.setText(Float.toString(c.getPrice()));
         quantity.setText(Integer.toString(c.getQuantity()));
         description.setText(c.getDescription());
     }
