@@ -4,29 +4,35 @@ import com.pavogt.javaisland.component.BackgroundPanel;
 import com.pavogt.javaisland.data.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
+import java.text.Normalizer;
 import java.util.ArrayList;
 
-public class Admin extends Panel implements DataBaseListener {
+public class Admin extends Panel implements DataBaseListener, KeyListener {
 
     private List stock;
+    private TextArea search;
     private TextArea name;
     private TextArea price;
     private TextArea quantity;
     private TextArea description;
     private Label add;
-    private ArrayList<Product> products;
     BackgroundPanel back;
     private ProductDataBase productDB;
+    private Product selectedProduct;
+
+    private ArrayList<Product> productList;
 
     public Admin(ProductDataBase productDB) {
 
         this.productDB = productDB;
         this.productDB.addListener(this);
 
-        products = this.productDB.getData();
+        productList = new ArrayList<>(this.productDB.getData());
 
         Button bAdd = new Button("+");
         bAdd.setBounds(770, 120, 30, 30);
@@ -36,10 +42,10 @@ public class Admin extends Panel implements DataBaseListener {
         Font font2 = new Font("Rockwell Nova", Font.PLAIN, 18);
         bAdd.setFont(font);
         bAdd.addActionListener(e -> {
-            int index = stock.getSelectedIndex();
-            Product h = products.get(index);
-            h.setQuantity(h.getQuantity() + 1);
-            quantity.setText(Integer.toString(h.getQuantity()));
+            Product h = selectedProduct;
+            if (h != null) {
+                quantity.setText(Integer.toString(Integer.parseInt(quantity.getText()) + 1));
+            }
         });
         add(bAdd);
 
@@ -49,16 +55,17 @@ public class Admin extends Panel implements DataBaseListener {
         bRem.setForeground(Color.BLACK);
         bRem.setFont(font);
         bRem.addActionListener(e -> {
-            int index = stock.getSelectedIndex();
-            Product h = products.get(index);
-            h.setQuantity(h.getQuantity() - 1);
-            quantity.setText(Integer.toString(h.getQuantity()));
+            Product h = selectedProduct;
+            if (h != null) {
+                quantity.setText(Integer.toString(Integer.parseInt(quantity.getText()) - 1));
+            }
         });
         add(bRem);
 
-        TextArea search = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
+        search = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
         search.setBounds(20, 20, 340, 30);
         search.setFont(font2);
+        search.addKeyListener(this);
         add(search);
 
         TextArea name2 = new TextArea("", 1, 100, TextArea.SCROLLBARS_NONE);
@@ -78,7 +85,7 @@ public class Admin extends Panel implements DataBaseListener {
 
         stock = new List(100, false);
 
-        for (Product p : products) {
+        for (Product p : productList) {
             stock.add(p.getName());
         }
 
@@ -167,7 +174,7 @@ public class Admin extends Panel implements DataBaseListener {
         newproduct.setFont(font2);
         newproduct.addActionListener(e -> {
             long uuid = 0;
-            for (Product prod : products) {
+            for (Product prod : productList) {
                 if (prod.getUuid() > uuid) uuid = prod.getUuid();
             }
 
@@ -196,7 +203,7 @@ public class Admin extends Panel implements DataBaseListener {
         begoneproduct.setFont(font2);
         begoneproduct.addActionListener(e -> {
             int index = stock.getSelectedIndex();
-            productDB.remove(index);
+            productDB.remove(productList.get(index));
             name.setText("");
             price.setText("");
             description.setText("");
@@ -210,22 +217,19 @@ public class Admin extends Panel implements DataBaseListener {
         saveproduct.setBounds(460, 370, 300, 30);
         saveproduct.setFont(font2);
         saveproduct.addActionListener(e -> {
-            Product tempprod;
-            int index = stock.getSelectedIndex();
-
             String balance = price.getText();
             BigDecimal bd = new BigDecimal(balance);
             long bal = bd.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN).longValue();
 
-            tempprod = new Product(
+            Product tempProd = new Product(
                     productDB,
-                    index,
+                    selectedProduct.getUuid(),
                     name.getText(),
                     bal,
                     Integer.parseInt(quantity.getText()),
                     description.getText()
             );
-            productDB.mod(index, tempprod);
+            productDB.modify(tempProd);
         });
 
         add(saveproduct);
@@ -242,26 +246,72 @@ public class Admin extends Panel implements DataBaseListener {
     }
     void updateAdminList(){
         stock.removeAll();
-        for (Product stk : productDB.getData()) {
+        for (Product stk : productList) {
             stock.add(stk.getName());
         }
     }
 
     void itemClicked() {
         int index = stock.getSelectedIndex();
-        Product c = products.get(index);
-        long bal = c.getPrice();
-        String dec = String.valueOf(bal % 100);
-        if (bal % 100 < 10)
-            dec = '0' + dec;
-        price.setText(String.valueOf(bal / 100) + '.' + dec);
-        name.setText(c.getName());
-        quantity.setText(Integer.toString(c.getQuantity()));
-        description.setText(c.getDescription());
+        if (index >= 0) {
+            selectedProduct = productList.get(index);
+            long bal = selectedProduct.getPrice();
+            String dec = String.valueOf(bal % 100);
+            if (bal % 100 < 10)
+                dec = '0' + dec;
+            price.setText(String.valueOf(bal / 100) + '.' + dec);
+            name.setText(selectedProduct.getName());
+            quantity.setText(Integer.toString(selectedProduct.getQuantity()));
+            description.setText(selectedProduct.getDescription());
+        }
     }
 
     @Override
     public void dataBaseChanged(){
+        makeSearch();
+    }
+
+    private String removeAccents(String s) {
+        return Normalizer.normalize(s, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
+
+    private void makeSearch() {
+        String text = removeAccents(search.getText().toLowerCase());
+        String[] parts = text.split(" ");
+        ArrayList<Product> products = productDB.getData();
+        productList.clear();
+        if (text.trim().length() == 0) {
+            productList.addAll(products);
+        } else {
+            for (Product product : products) {
+                String name = removeAccents(product.getName().toLowerCase());
+                boolean show = true;
+                for (String part : parts) {
+                    if (!name.contains(part)) {
+                        show = false;
+                        break;
+                    }
+                }
+                if (show) {
+                    productList.add(product);
+                }
+            }
+        }
         updateAdminList();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        makeSearch();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        makeSearch();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        makeSearch();
     }
 }

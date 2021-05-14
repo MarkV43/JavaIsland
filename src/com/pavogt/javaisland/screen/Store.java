@@ -7,8 +7,6 @@ import com.pavogt.javaisland.data.Product;
 import com.pavogt.javaisland.data.ProductDataBase;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -59,7 +57,7 @@ public class Store extends Panel {
             String dec = String.valueOf(bal % 100);
             if (bal % 100 < 10)
                 dec = '0' + dec;
-            productList.add(product.getName() + " - R$ " + String.valueOf(bal / 100) + '.' + dec);
+            productList.add(product.getName() + " - R$ " + bal / 100 + '.' + dec);
         }
 
         productList.setBounds(20, 100, 340, 540);

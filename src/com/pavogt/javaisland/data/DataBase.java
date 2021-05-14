@@ -47,9 +47,24 @@ public abstract class DataBase<T extends DataBaseItem> {
         notifyChanges();
     }
 
-    public void mod(int index, T obj) {
+    public void set(int index, T obj) {
         data.set(index, obj);
         notifyChanges();
+    }
+
+    public int indexFromUUID(long uuid) {
+        for (int i = 0, dataSize = data.size(); i < dataSize; i++) {
+            T t = data.get(i);
+            if (t.getUuid() == uuid) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void modify(T obj) {
+        int index = indexFromUUID(obj.getUuid());
+        set(index, obj);
     }
 
     public void remove(int index){

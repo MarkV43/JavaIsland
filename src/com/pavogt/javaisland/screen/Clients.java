@@ -6,12 +6,8 @@ import com.pavogt.javaisland.data.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import static java.lang.Float.parseFloat;
 
 public class Clients extends Panel implements DataBaseListener, KeyListener {
 
@@ -157,7 +153,7 @@ public class Clients extends Panel implements DataBaseListener, KeyListener {
         begoneclient.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         begoneclient.addActionListener(e -> {
             int index = list.getSelectedIndex();
-            clientDB.remove(index);
+            clientDB.remove(clientList.get(index));
             name.setText("");
             email.setText("");
             balance.setText("");
@@ -167,15 +163,13 @@ public class Clients extends Panel implements DataBaseListener, KeyListener {
         saveclient.setBounds(460,170, 300,30);
         saveclient.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         saveclient.addActionListener(e -> {
-            Client tempprod;
-            int index = list.getSelectedIndex();
-            Client c = clientDB.getData().get(index);
+            Client c = selectedClient;
 
             String balText = balance.getText();
             BigDecimal bd = new BigDecimal(balText);
             long bal = bd.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN).longValue();
 
-            tempprod = new Client(
+            Client tempClient = new Client(
                     clientDB,
                     c.getUuid(),
                     name.getText(),
@@ -184,7 +178,7 @@ public class Clients extends Panel implements DataBaseListener, KeyListener {
                     bal,
                     false,
                     c.getHistory());
-            clientDB.mod(index, tempprod);
+            clientDB.modify(tempClient);
         });
 
         add(saveclient);
