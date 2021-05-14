@@ -167,6 +167,9 @@ public class Cart extends Panel implements CartListener, LoginListener, KeyListe
         password.setBounds(1086, 20, 106, 30);
         login.setBounds(1212, 20, 50, 30);
 
+        Button logOut = new Button("Log out");
+        logOut.setBounds(1212, 70, 50,30);
+
         login.addActionListener(e -> {
             loginManager.login(username.getText(), new String(password.getPassword()));
         });
@@ -174,6 +177,7 @@ public class Cart extends Panel implements CartListener, LoginListener, KeyListe
         add(username);
         add(password);
         add(login);
+        add(logOut);
 
         welcome = new Label("Bem vindo, <insira o nome aqui>", Label.RIGHT);
         welcome.setBounds(960, 20, 300, 30);
