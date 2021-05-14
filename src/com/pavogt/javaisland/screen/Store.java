@@ -76,7 +76,7 @@ public class Store extends Panel {
         });
 
         productName = new Label("Name");
-        productName.setBounds(480, 60, 300, 30);
+        productName.setBounds(480, 60, 420, 30);
         productName.setFont(font2);
         productPrice = new Label("Price");
         productPrice.setBounds(480, 110, 300, 30);

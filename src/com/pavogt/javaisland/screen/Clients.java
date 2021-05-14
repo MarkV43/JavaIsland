@@ -33,7 +33,7 @@ public class Clients extends Panel implements DataBaseListener, KeyListener {
         this.clientDB.addListener(this);
         this.loginManager = lm;
 
-        this.clientList = new ArrayList<>();
+        this.clientList = new ArrayList<>(clientDB.getData());
 
         makeScreen();
     }

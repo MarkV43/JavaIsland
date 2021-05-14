@@ -93,7 +93,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
         add(finishBuying);
 
         productName = new Label("Name");
-        productName.setBounds(480, 60, 140, 30);
+        productName.setBounds(480, 60, 420, 30);
         productName.setFont(font2);
         productPrice = new Label("Price");
         productPrice.setBounds(480, 110, 140, 30);
