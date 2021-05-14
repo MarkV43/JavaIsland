@@ -120,12 +120,19 @@ public class Store extends Panel {
     public void clientDataBaseChanged() {
 
     }
-
-    public void productDataBaseChanged() {
+    void updateProductList(){
         productList.removeAll();
         for (Product product : products) {
-            productList.add(product.getName() + " - R$ " + product.getPrice());
+            long p = product.getPrice();
+            String decp = String.valueOf(p % 100);
+            if (p % 100 < 10)
+                decp = '0' + decp;
+            productList.add(product.getName() + " - R$ " + String.valueOf(p / 100) + '.' + decp);
         }
+    }
+
+    public void productDataBaseChanged() {
+        updateProductList();
     }
 
     public void productSelected(AWTEvent e) {

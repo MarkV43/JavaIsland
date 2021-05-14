@@ -214,9 +214,7 @@ public class Cart extends Panel implements CartListener, LoginListener {
             }
         }
     }
-
-    @Override
-    public void cartChanged() {
+    void updateCartList(){
         productList.removeAll();
 
         priceTot = 0;
@@ -229,6 +227,12 @@ public class Cart extends Panel implements CartListener, LoginListener {
             productList.add(product.getName() + " - R$ " + String.valueOf(bal / 100) + '.' + dec + " - " + cartManager.getAmount(uuid));
             priceTot += product.getPrice() * cartManager.getAmount(uuid);
         }
+    }
+
+    @Override
+    public void cartChanged() {
+
+        updateCartList();
 
         totalPrice.setText("Total: R$ " + String.format("%.2f", priceTot / 100f));
 

@@ -224,6 +224,12 @@ public class Admin extends Panel implements DataBaseListener {
 
 
     }
+    void updateAdminList(){
+        stock.removeAll();
+        for (Product stk : productDB.getData()) {
+            stock.add(stk.getName());
+        }
+    }
 
     void itemClicked() {
         int index = stock.getSelectedIndex();
@@ -239,11 +245,7 @@ public class Admin extends Panel implements DataBaseListener {
     }
 
     @Override
-    public void dataBaseChanged() {
-        stock.removeAll();
-        for (Product stk : productDB.getData()) {
-            stock.add(stk.getName());
-
-        }
+    public void dataBaseChanged(){
+        updateAdminList();
     }
 }
