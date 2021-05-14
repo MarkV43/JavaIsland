@@ -198,6 +198,27 @@ public class Clients extends Panel implements DataBaseListener {
         setLayout(null);
         setBounds(0, 90, 1280, 660);
 
+        Button removeHistory = new Button("Remove selected transaction");
+        removeHistory.setBounds(460,600, 300,30);
+        removeHistory.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
+        removeHistory.addActionListener(e -> {
+            int index = list.getSelectedIndex();
+            Client c = clientDB.getData().get(index);
+            int hisindex = history.getSelectedIndex();
+            ArrayList<Transaction> cHistory = c.getHistory();
+            c.removeFromHistory(cHistory.get(hisindex));
+
+        });
+
+        add(removeHistory);
+
+        add(saveclient);
+
+        add(begoneclient);
+
+        setLayout(null);
+        setBounds(0, 90, 1280, 660);
+
 
     }
 
