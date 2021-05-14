@@ -43,14 +43,9 @@ public class Clients extends Panel implements DataBaseListener, KeyListener {
     }
 
     void makeScreen() {
-        Button bAdd = new Button("+");
-        bAdd.setBounds(20, 20, 30, 30);
-        Font font = new Font("Rockwell Nova", Font.PLAIN, 28);
-        bAdd.setFont(font);
-        add(bAdd);
 
         search = new TextArea("", 1, 30, TextArea.SCROLLBARS_NONE);
-        search.setBounds(60, 20, 300, 30);
+        search.setBounds(20, 20, 340, 30);
         search.setFont(new Font("Rockwell Nova", Font.PLAIN, 18));
         search.addKeyListener(this);
         add(search);
